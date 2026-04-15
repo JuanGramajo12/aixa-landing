@@ -1,0 +1,2924 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Aixa Group — Un restaurante en tu espacio, sin personal, sin cocina, sin límites. Pizza caliente las 24 horas en hospitales, aeropuertos, universidades, centros comerciales y más." />
+  <title>Aixa Group — Un Restaurante en tu Espacio, Sin el Restaurante</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Syne:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+
+/* ═══════════════════════════════════════════════════════════
+   1. DESIGN TOKENS
+═══════════════════════════════════════════════════════════ */
+:root {
+  /* Palette — pulled from Athleats reference + SAVORIA screenshots */
+  --cream:        #F2EDE0;
+  --cream-mid:    #E8DFD0;
+  --espresso:     #19110A;
+  --espresso-2:   #221508;
+  --bronze:       #3E3117;
+  --umber:        #442510;
+  --sand:         #807258;
+  --gold:         #C9A96E;
+  --gold-light:   #E0C898;
+  --fire:         #C4431A;
+  --fire-dim:     rgba(196,67,26,0.15);
+
+  /* Semantic */
+  --text-on-dark:        #F2EDE0;
+  --text-muted-on-dark:  rgba(242,237,224,0.72);
+  --text-on-cream:       #19110A;
+  --text-muted-on-cream: rgba(25,17,10,0.65);
+  --border-dark:         rgba(242,237,224,0.10);
+  --border-cream:        rgba(25,17,10,0.10);
+
+  /* Typography */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Syne', system-ui, sans-serif;
+
+  /* Easing */
+  --ease-expo:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-quart:  cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --nav-h: 76px;
+  --max-w: 1200px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   2. RESET & BASE
+═══════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--espresso);
+  color: var(--text-on-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; color: inherit; }
+input, textarea { font-family: inherit; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   3. LAYOUT UTILITIES
+═══════════════════════════════════════════════════════════ */
+.wrap {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+.section-dark  { background: var(--espresso); color: var(--text-on-dark); }
+.section-cream { background: var(--cream);    color: var(--text-on-cream); }
+
+/* Grain texture overlay on dark sections */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  z-index: 1;
+  opacity: 0.5;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.section-dark  .eyebrow { color: var(--gold); }
+.section-cream .eyebrow { color: var(--umber); }
+.eyebrow::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+}
+.section-dark  .eyebrow::before { background: var(--gold); }
+.section-cream .eyebrow::before { background: var(--umber); }
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+}
+.section-title em { font-style: italic; color: var(--gold); }
+.section-cream .section-title em { color: var(--umber); }
+
+/* Scroll-reveal base state */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s var(--ease-expo), transform 0.9s var(--ease-expo);
+}
+.reveal.in { opacity: 1; transform: none; }
+.reveal.d1 { transition-delay: 0.10s; }
+.reveal.d2 { transition-delay: 0.20s; }
+.reveal.d3 { transition-delay: 0.30s; }
+.reveal.d4 { transition-delay: 0.40s; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   4. KEYFRAMES
+═══════════════════════════════════════════════════════════ */
+@keyframes wordUp {
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes barPulse {
+  0%, 100% { opacity: 0.35; transform: scaleY(0.92); }
+  50%       { opacity: 0.80; transform: scaleY(1.06); }
+}
+@keyframes heatRise {
+  0%, 100% { height: 15%; opacity: 0.3; }
+  50%       { height: 65%; opacity: 0.7; }
+}
+@keyframes hotPulse {
+  0%   { transform: scale(0.9); opacity: 0.9; }
+  100% { transform: scale(2.0); opacity: 0; }
+}
+@keyframes dotBlink {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 1; box-shadow: 0 0 6px currentColor; }
+}
+@keyframes spinSlow {
+  to { transform: rotate(360deg); }
+}
+@keyframes borderGlow {
+  0%, 100% { box-shadow: 0 0 0 rgba(201,169,110,0); }
+  50%       { box-shadow: 0 0 30px rgba(201,169,110,0.15); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   5. NAV
+═══════════════════════════════════════════════════════════ */
+#nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 200;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  padding: 0 48px;
+  transition: background 0.5s var(--ease-smooth), border-color 0.5s;
+  border-bottom: 1px solid transparent;
+}
+#nav.scrolled {
+  background: rgba(25, 17, 10, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-color: var(--border-dark);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 201;
+  text-decoration: none;
+}
+.nav-logo img {
+  height: 36px;
+  width: auto;
+  mix-blend-mode: screen;
+  display: block;
+}
+.nav-logo-text {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 44px;
+  margin-left: auto;
+}
+.nav-links a {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted-on-dark);
+  transition: color 0.25s;
+}
+.nav-links a:hover { color: var(--text-on-dark); }
+
+.nav-demo {
+  margin-left: 40px;
+  padding: 11px 26px;
+  background: var(--fire);
+  color: var(--cream);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background 0.25s, transform 0.2s;
+  flex-shrink: 0;
+}
+.nav-demo:hover { background: #d94d20; transform: translateY(-1px); }
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  margin-left: auto;
+  flex-direction: column;
+  gap: 6px;
+  width: 30px;
+  padding: 4px 0;
+  position: relative;
+  z-index: 201;
+}
+.hamburger span {
+  display: block;
+  height: 1px;
+  background: var(--text-on-dark);
+  transition: transform 0.4s var(--ease-expo), opacity 0.25s, width 0.3s;
+}
+.hamburger span:nth-child(2) { width: 70%; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); width: 100%; }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile overlay */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 199;
+  background: var(--espresso-2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 48px;
+  gap: 12px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s var(--ease-expo);
+}
+.mobile-overlay.open { opacity: 1; pointer-events: all; }
+
+.mobile-overlay a {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 8vw, 60px);
+  font-weight: 400;
+  color: var(--text-on-dark);
+  opacity: 0;
+  transform: translateX(-24px);
+  transition: color 0.2s, opacity 0.45s var(--ease-expo), transform 0.45s var(--ease-expo);
+  line-height: 1.1;
+}
+.mobile-overlay.open a { opacity: 1; transform: none; }
+.mobile-overlay.open a:nth-child(1) { transition-delay: 0.06s; }
+.mobile-overlay.open a:nth-child(2) { transition-delay: 0.10s; }
+.mobile-overlay.open a:nth-child(3) { transition-delay: 0.14s; }
+.mobile-overlay.open a:nth-child(4) { transition-delay: 0.18s; }
+.mobile-overlay a:hover { color: var(--gold); }
+
+.mobile-overlay-bottom {
+  position: absolute;
+  bottom: 48px;
+  left: 48px;
+  right: 48px;
+  display: flex;
+  gap: 12px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.4s var(--ease-expo) 0.25s, transform 0.4s var(--ease-expo) 0.25s;
+}
+.mobile-overlay.open .mobile-overlay-bottom { opacity: 1; transform: none; }
+.mobile-overlay-bottom a {
+  all: unset;
+  cursor: pointer;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 1 !important;
+  transform: none !important;
+  transition: background 0.2s !important;
+}
+.mob-btn-demo    { background: var(--fire); color: var(--cream); }
+.mob-btn-demo:hover { background: #d94d20; }
+.mob-btn-wa      { background: var(--bronze); color: var(--gold); border: 1px solid var(--umber); }
+.mob-btn-wa:hover { background: var(--umber); }
+
+
+/* ═══════════════════════════════════════════════════════════
+   6. HERO
+═══════════════════════════════════════════════════════════ */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-top: var(--nav-h);
+  background: var(--espresso-2);
+  overflow: hidden;
+}
+
+/* Warm ambient light in the bg */
+#hero::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 55%;
+  height: 100%;
+  background: radial-gradient(ellipse 60% 70% at 70% 40%,
+    rgba(196,67,26,0.06) 0%,
+    rgba(201,169,110,0.04) 30%,
+    transparent 70%);
+  pointer-events: none;
+}
+
+.hero-left {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 48px 80px 48px;
+}
+
+.hero-eyebrow {
+  opacity: 0;
+  animation: fadeIn 0.8s var(--ease-expo) 0.2s forwards;
+  margin-bottom: 36px;
+}
+
+/* Word-by-word headline reveal */
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 5.5vw, 84px);
+  font-weight: 400;
+  line-height: 1.04;
+  color: var(--text-on-dark);
+  margin-bottom: 32px;
+}
+
+.hero-headline .line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.hero-headline .line.italic-line {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.w {
+  display: inline-block;
+  transform: translateY(110%);
+  opacity: 0;
+  animation: wordUp 0.9s var(--ease-expo) forwards;
+  margin-right: 0.22em;
+}
+.w:last-child { margin-right: 0; }
+
+.hero-sub {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--text-muted-on-dark);
+  max-width: 420px;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeIn 1s var(--ease-expo) 1.1s forwards;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeIn 1s var(--ease-expo) 1.25s forwards;
+}
+
+/* CTA buttons */
+.btn-fire {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 17px 38px;
+  background: var(--fire);
+  color: var(--cream);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background 0.25s, transform 0.25s var(--ease-expo), box-shadow 0.25s;
+  position: relative;
+}
+.btn-fire:hover {
+  background: #d94d20;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(196,67,26,0.35);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 38px;
+  border: 1px solid var(--border-dark);
+  color: var(--text-muted-on-dark);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: border-color 0.25s, color 0.25s;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+.hero-stats {
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border-dark);
+  display: flex;
+  gap: 48px;
+  opacity: 0;
+  animation: fadeIn 1s var(--ease-expo) 1.45s forwards;
+}
+.hero-stat-num {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 400;
+  color: var(--gold);
+  line-height: 1;
+}
+.hero-stat-label {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted-on-dark);
+  margin-top: 6px;
+}
+
+/* Hero vertical divider */
+.hero-divider {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    var(--border-dark) 20%,
+    var(--border-dark) 80%,
+    transparent 100%);
+  z-index: 1;
+}
+
+/* Hero right: machine */
+.hero-right {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 48px;
+  opacity: 0;
+  animation: fadeIn 1.2s var(--ease-expo) 0.6s forwards;
+}
+
+/* ── Vending machine visualization ──────────────── */
+.machine {
+  width: 100%;
+  max-width: 340px;
+  position: relative;
+}
+
+.machine-body {
+  border: 1px solid var(--umber);
+  background: #0d0800;
+  box-shadow:
+    0 0 80px rgba(196,67,26,0.07),
+    inset 0 0 60px rgba(0,0,0,0.6);
+  animation: borderGlow 4s ease-in-out infinite;
+  position: relative;
+}
+
+/* Top badge strip */
+.m-badge-strip {
+  background: var(--umber);
+  padding: 7px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.m-badge-brand {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.m-badge-model {
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(201,169,110,0.4);
+}
+
+/* Main touchscreen */
+.m-screen {
+  padding: 14px 14px 12px;
+  border-bottom: 1px solid rgba(68,37,16,0.6);
+  background: #060402;
+  position: relative;
+  overflow: hidden;
+}
+.m-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 45%, rgba(201,169,110,0.025) 50%, transparent 55%);
+  animation: ticker 6s linear infinite;
+}
+.m-screen-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.m-screen-title {
+  font-size: 8.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(201,169,110,0.45);
+}
+.m-screen-live {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 7.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(196,67,26,0.6);
+}
+.m-live-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--fire);
+  animation: dotBlink 1.6s ease-in-out infinite;
+}
+
+/* Pizza grid display */
+.m-pizza-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 3px;
+  margin-bottom: 12px;
+}
+.m-pizza-slot {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(201,169,110,0.08);
+  border: 1px solid rgba(201,169,110,0.12);
+  position: relative;
+  transition: background 0.3s;
+}
+.m-pizza-slot.filled {
+  background: radial-gradient(circle at 40% 40%, rgba(196,67,26,0.45), rgba(100,30,10,0.3));
+  border-color: rgba(196,67,26,0.25);
+}
+.m-pizza-slot.dispensing {
+  background: radial-gradient(circle at 40% 40%, rgba(201,169,110,0.6), rgba(196,67,26,0.4));
+  border-color: var(--gold);
+  animation: hotPulse 1s ease-out forwards;
+}
+
+.m-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+.m-metric {
+  background: rgba(201,169,110,0.04);
+  border: 1px solid rgba(201,169,110,0.08);
+  padding: 6px 5px;
+  text-align: center;
+}
+.m-metric-v {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--gold);
+  line-height: 1;
+}
+.m-metric-l {
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(201,169,110,0.35);
+  margin-top: 3px;
+}
+
+/* Oven + delivery zone */
+.m-oven {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(68,37,16,0.6);
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.m-oven-box {
+  flex: 1;
+  height: 40px;
+  border: 1px solid rgba(196,67,26,0.3);
+  background: rgba(196,67,26,0.04);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.m-oven-label {
+  font-size: 7.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(196,67,26,0.45);
+  position: relative;
+  z-index: 2;
+}
+.m-oven-box::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(196,67,26,0.5), rgba(196,67,26,0.1));
+  animation: heatRise 2.2s ease-in-out infinite;
+}
+.m-temp {
+  text-align: right;
+  flex-shrink: 0;
+}
+.m-temp-num {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-style: italic;
+  color: var(--fire);
+  line-height: 1;
+}
+.m-temp-unit {
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(196,67,26,0.45);
+}
+
+/* Payment / output zone */
+.m-payment {
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(68,37,16,0.6);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.m-pay-icon {
+  padding: 4px 8px;
+  border: 1px solid var(--border-dark);
+  font-size: 7.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted-on-dark);
+}
+
+/* Status strip */
+.m-controls {
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.m-ctrl-dots { display: flex; gap: 6px; align-items: center; }
+.m-ctrl-dot { width: 6px; height: 6px; border-radius: 50%; }
+.m-ctrl-dot.on-g { background: var(--gold); animation: dotBlink 2.5s ease-in-out infinite; }
+.m-ctrl-dot.on-r { background: var(--fire); animation: dotBlink 2.5s ease-in-out 0.6s infinite; }
+.m-ctrl-dot.off  { background: rgba(201,169,110,0.15); }
+.m-ctrl-id {
+  font-size: 7.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(201,169,110,0.2);
+}
+
+/* Connectivity indicator */
+.m-connectivity {
+  padding: 6px 16px;
+  display: flex;
+  gap: 12px;
+}
+.m-conn-item {
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(201,169,110,0.25);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.m-conn-item.active { color: rgba(201,169,110,0.55); }
+.m-conn-dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
+
+/* Hotspots */
+.hotspot {
+  position: absolute;
+  z-index: 10;
+  cursor: pointer;
+}
+.hs-1 { top: 18%; right: -16px; }
+.hs-2 { top: 54%; left: -16px; }
+.hs-3 { bottom: 18%; right: -16px; }
+
+.hs-ring {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  background: rgba(201,169,110,0.12);
+  position: relative;
+  transition: background 0.2s;
+}
+.hs-ring::before, .hs-ring::after {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,169,110,0.4);
+  animation: hotPulse 2.2s ease-out infinite;
+}
+.hs-ring::after { animation-delay: 1.1s; }
+.hotspot:hover .hs-ring { background: rgba(201,169,110,0.3); }
+
+.hs-tip {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  background: rgba(17,8,0,0.95);
+  border: 1px solid var(--umber);
+  padding: 8px 14px;
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  color: var(--text-muted-on-dark);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  backdrop-filter: blur(8px);
+}
+.hs-1 .hs-tip { left: 38px; transform: translateY(-50%) translateX(4px); }
+.hs-2 .hs-tip { right: 38px; transform: translateY(-50%) translateX(-4px); }
+.hs-3 .hs-tip { left: 38px; transform: translateY(-50%) translateX(4px); }
+.hotspot:hover .hs-tip { opacity: 1; }
+.hs-1:hover .hs-tip { transform: translateY(-50%) translateX(0); }
+.hs-2:hover .hs-tip { transform: translateY(-50%) translateX(0); }
+.hs-3:hover .hs-tip { transform: translateY(-50%) translateX(0); }
+
+/* Machine carousel (mobile only) */
+.machine-carousel { display: none; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   7. TICKER
+═══════════════════════════════════════════════════════════ */
+#ticker {
+  background: var(--cream);
+  border-top: 1px solid var(--border-cream);
+  border-bottom: 1px solid var(--border-cream);
+  overflow: hidden;
+  height: 52px;
+  display: flex;
+  align-items: center;
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 36s linear infinite;
+  gap: 0;
+}
+
+.ticker-item {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding: 0 40px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted-on-cream);
+  white-space: nowrap;
+}
+
+.ticker-sep {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--umber);
+  opacity: 0.3;
+  flex-shrink: 0;
+}
+
+.ticker-hl { color: var(--text-on-cream); font-weight: 600; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   8. EL PROBLEMA
+═══════════════════════════════════════════════════════════ */
+#problema {
+  padding: 140px 0;
+  position: relative;
+}
+
+.problema-intro {
+  margin-bottom: 80px;
+  max-width: 680px;
+}
+
+.problema-intro .section-title {
+  font-size: clamp(38px, 4vw, 60px);
+  margin-top: 20px;
+  color: var(--text-on-cream);
+}
+.problema-intro .section-title em { color: var(--umber); }
+
+.problema-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--border-cream);
+}
+
+.prob-card {
+  padding: 56px 40px 56px 0;
+  border-right: 1px solid var(--border-cream);
+  transition: background 0.4s;
+  position: relative;
+}
+.prob-card:last-child { border-right: none; padding-right: 0; padding-left: 40px; }
+.prob-card:nth-child(2) { padding-left: 40px; }
+.prob-card:hover { background: rgba(25,17,10,0.03); }
+
+.prob-num {
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 400;
+  color: rgba(25,17,10,0.06);
+  line-height: 1;
+  margin-bottom: 32px;
+  transition: color 0.4s;
+}
+.prob-card:hover .prob-num { color: rgba(68,37,16,0.1); }
+
+.prob-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-on-cream);
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+
+.prob-body {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-muted-on-cream);
+  line-height: 1.85;
+}
+
+/* Mobile: 80vh storytelling cards */
+.prob-card-mobile {
+  display: none;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   9. LA MÁQUINA (PRODUCT SECTION)
+═══════════════════════════════════════════════════════════ */
+#maquina {
+  padding: 140px 0;
+  position: relative;
+}
+
+.maquina-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+/* Left: editorial spec list (SAVORIA "Our Menu" pattern) */
+.maquina-intro {
+  margin-bottom: 52px;
+}
+.maquina-intro .section-title {
+  font-size: clamp(36px, 3.5vw, 56px);
+  margin-top: 20px;
+  color: var(--text-on-dark);
+}
+
+.spec-list {
+  list-style: none;
+  border-top: 1px solid var(--border-dark);
+}
+
+.spec-item {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  gap: 0 20px;
+  align-items: start;
+  padding: 26px 0;
+  border-bottom: 1px solid var(--border-dark);
+  cursor: default;
+  transition: background 0.3s;
+}
+.spec-item:hover { background: rgba(242,237,224,0.02); }
+
+.spec-n {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-muted-on-dark);
+  padding-top: 3px;
+  font-style: italic;
+}
+
+.spec-content {}
+.spec-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-on-dark);
+  margin-bottom: 6px;
+  transition: color 0.25s;
+  letter-spacing: 0.02em;
+}
+.spec-item:hover .spec-title { color: var(--gold); }
+
+.spec-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-muted-on-dark);
+  line-height: 1.75;
+}
+
+.spec-arrow {
+  font-size: 16px;
+  color: var(--text-muted-on-dark);
+  padding-top: 1px;
+  transition: color 0.25s, transform 0.25s;
+}
+.spec-item:hover .spec-arrow { color: var(--gold); transform: translate(2px, -2px); }
+
+/* Right: machine visual (desktop) */
+.maquina-visual {
+  position: sticky;
+  top: calc(var(--nav-h) + 40px);
+}
+.maquina-frame {
+  border: 1px solid var(--border-dark);
+  background: var(--espresso-2);
+  padding: 32px;
+  position: relative;
+}
+
+.maquina-machine-large {
+  width: 100%;
+}
+
+.maquina-badge {
+  position: absolute;
+  top: -1px; right: 32px;
+  background: var(--fire);
+  color: var(--cream);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 7px 16px;
+}
+
+.maquina-caption {
+  margin-top: 20px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted-on-dark);
+  text-align: center;
+}
+
+/* Machine carousel (mobile) */
+.maquina-carousel {
+  display: none;
+  overflow: hidden;
+  margin-top: 40px;
+}
+.carousel-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-card {
+  flex: 0 0 80%;
+  scroll-snap-align: start;
+  border: 1px solid var(--border-dark);
+  padding: 32px 28px;
+}
+.carousel-card-icon {
+  width: 40px;
+  height: 40px;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+.carousel-card-icon svg { width: 100%; height: 100%; }
+.carousel-card-title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--text-on-dark);
+  margin-bottom: 10px;
+}
+.carousel-card-body {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-muted-on-dark);
+  line-height: 1.75;
+}
+.carousel-dots {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+.carousel-dot {
+  width: 20px;
+  height: 2px;
+  background: var(--border-dark);
+  transition: background 0.3s, width 0.3s;
+}
+.carousel-dot.active { background: var(--gold); width: 36px; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   10. ESTADÍSTICAS
+═══════════════════════════════════════════════════════════ */
+#estadisticas {
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+#estadisticas::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border-cream) 30%, var(--border-cream) 70%, transparent);
+}
+#estadisticas::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border-cream) 30%, var(--border-cream) 70%, transparent);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  position: relative;
+}
+.stats-grid::before {
+  content: '';
+  position: absolute;
+  left: 33.333%;
+  top: 10%;
+  bottom: 10%;
+  width: 1px;
+  background: var(--border-cream);
+}
+.stats-grid::after {
+  content: '';
+  position: absolute;
+  left: 66.666%;
+  top: 10%;
+  bottom: 10%;
+  width: 1px;
+  background: var(--border-cream);
+}
+
+.stat-block {
+  padding: 0 48px;
+  text-align: center;
+}
+.stat-block:first-child { padding-left: 0; }
+.stat-block:last-child  { padding-right: 0; }
+
+.stat-num-wrap {
+  font-family: var(--font-display);
+  font-size: clamp(72px, 8vw, 120px);
+  font-weight: 400;
+  color: var(--text-on-cream);
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px;
+}
+.stat-suffix {
+  font-size: 0.45em;
+  font-style: italic;
+  color: var(--umber);
+}
+.stat-label-main {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted-on-cream);
+  margin-top: 16px;
+}
+.stat-sub {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-muted-on-cream);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   11. EL MENÚ
+═══════════════════════════════════════════════════════════ */
+#menu {
+  padding: 140px 0;
+  position: relative;
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  margin-bottom: 72px;
+}
+.menu-header-left .section-title {
+  font-size: clamp(38px, 4vw, 60px);
+  margin-top: 20px;
+}
+.menu-header-right {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-muted-on-dark);
+  max-width: 300px;
+  text-align: right;
+  line-height: 1.75;
+  padding-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 32px;
+}
+
+.menu-item { cursor: pointer; }
+
+.menu-plate {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 20px;
+  background: #0a0704;
+  transition: box-shadow 0.4s var(--ease-expo), transform 0.4s var(--ease-expo);
+}
+.menu-plate img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.menu-item:hover .menu-plate {
+  transform: scale(1.03);
+  box-shadow: 0 0 0 1.5px var(--gold), 0 24px 48px rgba(0,0,0,0.5);
+}
+
+.menu-plate-bg {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s var(--ease-expo);
+}
+.menu-item:hover .menu-plate-bg { transform: scale(1.09); }
+
+.menu-plate-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(17,8,0,0.45) 100%);
+}
+
+.menu-plate-badge {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.menu-item:hover .menu-plate-badge { opacity: 1; }
+.menu-plate-badge span {
+  background: rgba(17,8,0,0.85);
+  border: 1px solid var(--gold);
+  padding: 9px 18px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  backdrop-filter: blur(8px);
+}
+
+.menu-name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  text-align: center;
+  color: var(--text-on-dark);
+  margin-bottom: 5px;
+}
+.menu-desc {
+  font-size: 12px;
+  font-weight: 300;
+  text-align: center;
+  color: var(--text-muted-on-dark);
+  letter-spacing: 0.04em;
+}
+
+/* Mobile snap slider */
+.menu-snap { display: none; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   12. QUOTE
+═══════════════════════════════════════════════════════════ */
+#quote {
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.quote-bg-mark {
+  position: absolute;
+  top: -40px;
+  left: 48px;
+  font-family: var(--font-display);
+  font-size: 280px;
+  font-weight: 700;
+  color: rgba(25,17,10,0.04);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.quote-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.quote-text {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3vw, 44px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text-on-cream);
+  line-height: 1.35;
+  margin-bottom: 36px;
+}
+
+.quote-attr {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.quote-line {
+  width: 40px;
+  height: 1px;
+  background: var(--border-cream);
+}
+.quote-name {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted-on-cream);
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   13. CTA
+═══════════════════════════════════════════════════════════ */
+#cta {
+  padding: 140px 0;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+#cta::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle,
+    rgba(201,169,110,0.06) 0%,
+    rgba(196,67,26,0.04) 35%,
+    transparent 70%);
+  pointer-events: none;
+}
+
+.cta-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.cta-title {
+  font-family: var(--font-display);
+  font-size: clamp(46px, 5.5vw, 80px);
+  font-weight: 400;
+  line-height: 1.06;
+  color: var(--text-on-dark);
+  margin-bottom: 28px;
+}
+.cta-title em { font-style: italic; color: var(--gold); }
+
+.cta-sub {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text-muted-on-dark);
+  max-width: 480px;
+  margin: 0 auto 52px;
+  line-height: 1.8;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 17px 38px;
+  background: #25D366;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background 0.25s, transform 0.25s var(--ease-expo), box-shadow 0.25s;
+}
+.btn-wa:hover {
+  background: #1fb558;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(37,211,102,0.28);
+}
+.btn-wa svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   14. CONTACTO
+═══════════════════════════════════════════════════════════ */
+#contacto {
+  padding: 120px 0;
+}
+
+.contacto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.contacto-left .section-title {
+  font-size: clamp(36px, 3.5vw, 54px);
+  margin-top: 20px;
+  color: var(--text-on-cream);
+}
+
+.contacto-desc {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text-muted-on-cream);
+  line-height: 1.8;
+  margin-top: 28px;
+  margin-bottom: 44px;
+}
+
+.contacto-details { list-style: none; }
+.contacto-detail {
+  display: flex;
+  gap: 0;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-cream);
+  align-items: baseline;
+}
+.contacto-detail:first-child { border-top: 1px solid var(--border-cream); }
+.detail-key {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted-on-cream);
+  min-width: 100px;
+}
+.detail-val {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-on-cream);
+}
+
+/* Form */
+.contact-form {
+  border: 1px solid var(--border-cream);
+  overflow: hidden;
+}
+
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.f-field {
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--border-cream);
+  position: relative;
+  background: var(--cream);
+  transition: background 0.2s;
+}
+.f-field:focus-within { background: var(--cream-mid); }
+.f-field-full { border-right: none; }
+.form-row-2 .f-field:first-child { border-right: 1px solid var(--border-cream); }
+
+.f-label {
+  display: block;
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted-on-cream);
+  margin-bottom: 8px;
+}
+.f-input, .f-textarea {
+  width: 100%;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-on-cream);
+  line-height: 1.5;
+}
+.f-input::placeholder, .f-textarea::placeholder {
+  color: rgba(25,17,10,0.2);
+}
+.f-textarea { resize: none; height: 90px; }
+
+.form-footer {
+  background: var(--cream-mid);
+  border-top: 1px solid var(--border-cream);
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.form-note {
+  font-size: 11px;
+  color: var(--text-muted-on-cream);
+  letter-spacing: 0.04em;
+}
+.form-submit {
+  padding: 13px 30px;
+  background: var(--espresso);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  transition: background 0.25s, transform 0.2s;
+  flex-shrink: 0;
+}
+.form-submit:hover { background: var(--bronze); transform: translateY(-1px); }
+
+
+/* ═══════════════════════════════════════════════════════════
+   15. FOOTER
+═══════════════════════════════════════════════════════════ */
+footer {
+  border-top: 1px solid var(--border-dark);
+  padding: 44px 0;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.footer-nav {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+.footer-nav a {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted-on-dark);
+  transition: color 0.2s;
+}
+.footer-nav a:hover { color: var(--text-on-dark); }
+
+.footer-copy {
+  font-size: 11px;
+  color: var(--text-muted-on-dark);
+  letter-spacing: 0.04em;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   16. MOBILE FIXED CTA BAR (PRD requirement)
+═══════════════════════════════════════════════════════════ */
+.mobile-cta-bar {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 190;
+  background: var(--espresso-2);
+  border-top: 1px solid var(--border-dark);
+  padding: 10px 16px;
+  gap: 10px;
+  /* safe area for notch */
+  padding-bottom: max(10px, env(safe-area-inset-bottom));
+}
+.mobile-cta-bar a {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.mcta-demo { background: var(--fire); color: var(--cream); }
+.mcta-wa   { background: #25D366; color: #fff; }
+.mcta-wa svg { width: 17px; height: 17px; fill: currentColor; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   17. RESPONSIVE
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 1100px) {
+  .menu-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .maquina-layout { grid-template-columns: 1fr; gap: 0; }
+  .maquina-visual { display: none; }
+  .maquina-carousel { display: block; }
+  .machine-carousel { display: block; }
+}
+
+@media (max-width: 768px) {
+  .wrap { padding: 0 24px; }
+
+  /* Nav */
+  #nav { padding: 0 24px; }
+  .nav-links, .nav-demo { display: none; }
+  .hamburger { display: flex; }
+
+  /* Mobile overlay */
+  .mobile-overlay { padding: 0 32px; }
+  .mobile-overlay-bottom { left: 32px; right: 32px; bottom: 40px; }
+
+  /* Hero */
+  #hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-bottom: 64px;
+  }
+  .hero-left { padding: 52px 24px 40px; justify-content: flex-start; }
+  .hero-right { display: none; }
+  .hero-divider { display: none; }
+  .hero-stats { gap: 28px; }
+
+  /* Problema */
+  #problema { padding: 80px 0; }
+  .problema-grid { display: none; }
+  .prob-card-mobile {
+    display: block;
+    padding: 80px 24px;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-bottom: 1px solid var(--border-cream);
+    opacity: 0.25;
+    transform: translateY(20px);
+    transition: opacity 0.6s var(--ease-expo), transform 0.6s var(--ease-expo);
+  }
+  .prob-card-mobile.active {
+    opacity: 1;
+    transform: none;
+  }
+  .prob-card-mobile:last-child { border-bottom: none; }
+
+  /* Maquina */
+  #maquina { padding: 80px 0; }
+  .spec-list { display: none; }
+  .maquina-carousel { display: block; }
+  .maquina-intro { margin-bottom: 40px; }
+
+  /* Estadísticas */
+  #estadisticas { padding: 80px 0; }
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .stats-grid::before, .stats-grid::after { display: none; }
+  .stat-block {
+    padding: 40px 0;
+    border-bottom: 1px solid var(--border-cream);
+  }
+  .stat-block:last-child { border-bottom: none; }
+
+  /* Menu */
+  #menu { padding: 80px 0; }
+  .menu-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .menu-header-right { text-align: left; max-width: 100%; }
+  .menu-grid { display: none; }
+  .menu-snap {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 -24px;
+    padding: 0 24px 8px;
+  }
+  .menu-snap::-webkit-scrollbar { display: none; }
+  .menu-snap-item {
+    flex: 0 0 72vw;
+    scroll-snap-align: start;
+  }
+
+  /* Quote */
+  #quote { padding: 80px 0; }
+  .quote-bg-mark { display: none; }
+
+  /* CTA */
+  #cta { padding: 80px 0; }
+
+  /* Contacto */
+  #contacto { padding: 80px 0; }
+  .contacto-grid { grid-template-columns: 1fr; gap: 48px; }
+  .form-row-2 { grid-template-columns: 1fr; }
+  .form-row-2 .f-field:first-child { border-right: none; }
+
+  /* Footer */
+  footer { padding: 40px 0 120px; }
+  .footer-inner { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .footer-nav { flex-wrap: wrap; gap: 20px; }
+
+  /* Mobile CTA bar */
+  .mobile-cta-bar { display: flex; }
+}
+
+@media (max-width: 480px) {
+  .hero-ctas { flex-direction: column; }
+  .hero-ctas a { text-align: center; justify-content: center; }
+  .cta-buttons { flex-direction: column; align-items: center; }
+  .cta-buttons a { width: 100%; max-width: 320px; justify-content: center; }
+}
+
+@media (min-width: 1441px) {
+  .wrap { padding: 0 60px; }
+}
+
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════
+     NAV
+══════════════════════════════════════════════════════ -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">
+    <img src="logo.png" alt="Aixa Group" />
+    <span class="nav-logo-text">Aixa Group</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#problema">El Problema</a></li>
+    <li><a href="#maquina">La Máquina</a></li>
+    <li><a href="#como-funciona">Cómo Funciona</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="#contacto" class="nav-demo">Quiero una Máquina</a>
+  <button class="hamburger" id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="mobile-overlay" id="mobileOverlay">
+  <a href="#problema">El Problema</a>
+  <a href="#maquina">La Máquina</a>
+  <a href="#como-funciona">Cómo Funciona</a>
+  <a href="#contacto">Contacto</a>
+  <div class="mobile-overlay-bottom">
+    <a href="#contacto" class="mob-btn-demo">Quiero una Máquina</a>
+    <a href="https://wa.me/5491123462744?text=Hola%2C%20quiero%20info%20sobre%20Aixa%20Group" class="mob-btn-wa" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════
+     HERO — dark
+══════════════════════════════════════════════════════ -->
+<section id="hero" class="section-dark grain">
+  <div class="hero-divider"></div>
+
+  <div class="hero-left">
+    <div style="margin-bottom:28px;">
+      <img src="logo.png" alt="Aixa Group"
+           style="height:72px;width:auto;mix-blend-mode:screen;display:block;" />
+    </div>
+    <div class="hero-eyebrow eyebrow">Modelo X2-PSJ-9 — Aixa Group</div>
+
+    <h1 class="hero-headline">
+      <span class="line">
+        <span class="w" style="animation-delay:0.40s">Un</span><span class="w" style="animation-delay:0.52s">restaurante</span>
+      </span>
+      <span class="line">
+        <span class="w" style="animation-delay:0.64s">en</span><span class="w" style="animation-delay:0.76s">tu</span><span class="w" style="animation-delay:0.88s">espacio.</span>
+      </span>
+      <span class="line italic-line">
+        <span class="w" style="animation-delay:1.00s">Sin</span><span class="w" style="animation-delay:1.12s">el</span><span class="w" style="animation-delay:1.24s">restaurante.</span>
+      </span>
+    </h1>
+
+    <p class="hero-sub">
+      Pizza caliente las 24 horas, sin personal, sin cocina, sin obra. Nosotros instalamos, abastecemos y mantenemos todo.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#contacto" class="btn-fire magnetic">Quiero una Máquina</a>
+      <a href="#maquina"  class="btn-outline">Ver Especificaciones</a>
+    </div>
+
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">90</div>
+        <div class="hero-stat-label">Pizzas por carga</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">24h</div>
+        <div class="hero-stat-label">Servicio continuo</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">300°C</div>
+        <div class="hero-stat-label">Horno integrado</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="machine" style="position:relative;">
+      <div class="machine-body">
+
+        <!-- Top branding strip -->
+        <div class="m-badge-strip">
+          <span class="m-badge-brand">Aixa Group</span>
+          <span class="m-badge-model">X2-PSJ-9 · Operativo</span>
+        </div>
+
+        <!-- 32" touchscreen — pizza grid + analytics -->
+        <div class="m-screen">
+          <div class="m-screen-header">
+            <span class="m-screen-title">90 canales · Stock en tiempo real</span>
+            <span class="m-screen-live"><span class="m-live-dot"></span>En vivo</span>
+          </div>
+          <!-- 6×5 = 30 slots visible representing the grid -->
+          <div class="m-pizza-grid" id="pizzaGrid">
+            <!-- JS fills these -->
+          </div>
+          <div class="m-metrics">
+            <div class="m-metric"><div class="m-metric-v" id="metricSold">74</div><div class="m-metric-l">Vendidas hoy</div></div>
+            <div class="m-metric"><div class="m-metric-v" id="metricStock">16</div><div class="m-metric-l">En stock</div></div>
+            <div class="m-metric"><div class="m-metric-v">4G</div><div class="m-metric-l">Conectado</div></div>
+          </div>
+        </div>
+
+        <!-- Oven zone -->
+        <div class="m-oven">
+          <div class="m-oven-box">
+            <span class="m-oven-label">Horno activo</span>
+          </div>
+          <div class="m-temp">
+            <div class="m-temp-num">300</div>
+            <div class="m-temp-unit">°C</div>
+          </div>
+        </div>
+
+        <!-- Payment methods -->
+        <div class="m-payment">
+          <span class="m-pay-icon">Visa</span>
+          <span class="m-pay-icon">Efectivo</span>
+          <span class="m-pay-icon">Monedas</span>
+          <span class="m-pay-icon">QR</span>
+        </div>
+
+        <!-- Status -->
+        <div class="m-controls">
+          <div class="m-ctrl-dots">
+            <div class="m-ctrl-dot on-g"></div>
+            <div class="m-ctrl-dot on-r"></div>
+            <div class="m-ctrl-dot off"></div>
+          </div>
+          <span class="m-ctrl-id">AIXA-001 — OPERATIVO</span>
+        </div>
+
+        <!-- Connectivity -->
+        <div class="m-connectivity">
+          <span class="m-conn-item active"><span class="m-conn-dot"></span>4G</span>
+          <span class="m-conn-item active"><span class="m-conn-dot"></span>Wi-Fi</span>
+          <span class="m-conn-item active"><span class="m-conn-dot"></span>GPS</span>
+        </div>
+      </div>
+
+      <!-- Hotspots (desktop only) -->
+      <div class="hotspot hs-1">
+        <div class="hs-ring"></div>
+        <div class="hs-tip">Pantalla táctil 32" Ultra HD</div>
+      </div>
+      <div class="hotspot hs-2">
+        <div class="hs-ring"></div>
+        <div class="hs-tip">Horno integrado 30–300°C</div>
+      </div>
+      <div class="hotspot hs-3">
+        <div class="hs-ring"></div>
+        <div class="hs-tip">Pago: tarjeta, efectivo, monedas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     PROOF TICKER — cream
+══════════════════════════════════════════════════════ -->
+<div id="ticker" class="section-cream">
+  <div class="ticker-track" aria-hidden="true">
+    <!-- Copy 1 -->
+    <div class="ticker-item">
+      <span class="ticker-sep"></span>
+      <span class="ticker-hl">90 pizzas por carga</span>
+      <span class="ticker-sep"></span>
+      <span>Servicio 24 horas sin personal</span>
+      <span class="ticker-sep"></span>
+      <span class="ticker-hl">Horno integrado 300°C</span>
+      <span class="ticker-sep"></span>
+      <span>Pantalla táctil 32" Ultra HD</span>
+      <span class="ticker-sep"></span>
+      <span class="ticker-hl">Proveedor Tomasso Pizzas</span>
+      <span class="ticker-sep"></span>
+      <span>Conectividad 4G · Wi-Fi · GPS</span>
+      <span class="ticker-sep"></span>
+      <span class="ticker-hl">Aixa Group</span>
+      <span class="ticker-sep"></span>
+      <span>Hospitales · Aeropuertos · Universidades · Centros Comerciales</span>
+    </div>
+    <!-- Copy 2 — identical, for seamless loop -->
+    <div class="ticker-item">
+      <span class="ticker-sep"></span>
+      <span class="ticker-hl">90 pizzas por carga</span>
+      <span class="ticker-sep"></span>
+      <span>Servicio 24 horas sin personal</span>
+      <span class="ticker-sep"></span>
+      <span class="ticker-hl">Horno integrado 300°C</span>
+      <span class="ticker-sep"></span>
+      <span>Pantalla táctil 32" Ultra HD</span>
+      <span class="ticker-sep"></span>
+      <span class="ticker-hl">Proveedor Tomasso Pizzas</span>
+      <span class="ticker-sep"></span>
+      <span>Conectividad 4G · Wi-Fi · GPS</span>
+      <span class="ticker-sep"></span>
+      <span class="ticker-hl">Aixa Group</span>
+      <span class="ticker-sep"></span>
+      <span>Hospitales · Aeropuertos · Universidades · Centros Comerciales</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════
+     EL PROBLEMA — cream
+══════════════════════════════════════════════════════ -->
+<section id="problema" class="section-cream">
+  <div class="wrap">
+
+    <div class="problema-intro reveal">
+      <div class="eyebrow">Lo que ofrecemos</div>
+      <h2 class="section-title">
+        Elevamos el nivel<br>
+        de tu espacio con<br>
+        <em>gastronomía real.</em>
+      </h2>
+    </div>
+
+    <!-- Desktop grid -->
+    <div class="problema-grid">
+      <div class="prob-card reveal d1">
+        <div class="prob-num">01</div>
+        <div class="prob-title">Una pizzería completa, sin la infraestructura</div>
+        <p class="prob-body">Nosotros tenemos la fábrica, el producto, la logística y el equipo. Vos ponés el espacio. Sin obra, sin personal, sin habilitaciones de cocina. La pizzería llega lista.</p>
+      </div>
+      <div class="prob-card reveal d2">
+        <div class="prob-num">02</div>
+        <div class="prob-title">Servicio 24/7 que trabaja mientras vos descansás</div>
+        <p class="prob-body">La máquina no cierra. Sirve pizza a las 3 AM en un hospital, a las 6 AM en un aeropuerto, entre clases en una universidad. Demanda cubierta en todo momento, sin empleados.</p>
+      </div>
+      <div class="prob-card reveal d3">
+        <div class="prob-num">03</div>
+        <div class="prob-title">Más valor para tu comunidad, más ingresos para vos</div>
+        <p class="prob-body">Tu espacio le ofrece a su gente una opción gastronómica de calidad. Vos generás ingresos adicionales sin gestión diaria. Nosotros nos encargamos de todo lo demás.</p>
+      </div>
+    </div>
+
+    <!-- Mobile storytelling (shown via CSS @media) -->
+    <div class="prob-card-mobile">
+      <div class="prob-num">01</div>
+      <div class="prob-title">Una pizzería completa, sin la infraestructura</div>
+      <p class="prob-body">Nosotros tenemos la fábrica, el producto, la logística y el equipo. Vos ponés el espacio. Sin obra, sin personal, sin habilitaciones de cocina.</p>
+    </div>
+    <div class="prob-card-mobile">
+      <div class="prob-num">02</div>
+      <div class="prob-title">Servicio 24/7 que trabaja mientras vos descansás</div>
+      <p class="prob-body">La máquina no cierra. Sirve pizza a las 3 AM en un hospital, a las 6 AM en un aeropuerto, entre clases en una universidad. Sin empleados.</p>
+    </div>
+    <div class="prob-card-mobile">
+      <div class="prob-num">03</div>
+      <div class="prob-title">Más valor para tu comunidad, más ingresos para vos</div>
+      <p class="prob-body">Tu espacio le ofrece a su gente una opción gastronómica de calidad. Vos generás ingresos adicionales sin gestión diaria. Todo a cargo nuestro.</p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     LA MÁQUINA — dark
+══════════════════════════════════════════════════════ -->
+<section id="maquina" class="section-dark grain">
+  <div class="wrap">
+
+    <div class="maquina-layout">
+
+      <!-- Left: editorial spec list -->
+      <div>
+        <div class="maquina-intro reveal">
+          <div class="eyebrow">Modelo X2-PSJ-9</div>
+          <h2 class="section-title">
+            La máquina.<br>
+            <em>Especificaciones</em><br>
+            reales.
+          </h2>
+        </div>
+
+        <ul class="spec-list reveal d1">
+          <li class="spec-item">
+            <span class="spec-n">01</span>
+            <div class="spec-content">
+              <div class="spec-title">90 canales · 90 pizzas de 22,86 cm</div>
+              <p class="spec-desc">Capacidad para 90 cajas de pizza de 9 pulgadas (22,86 cm). Almacenamiento a temperatura controlada entre −5°C y 8°C con compresor Embraco frost-free.</p>
+            </div>
+            <span class="spec-arrow">↗</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-n">02</span>
+            <div class="spec-content">
+              <div class="spec-title">Horno integrado 30–300°C · 4.900 W</div>
+              <p class="spec-desc">El cliente elige su pizza en pantalla. El horno la calienta al instante. Temperatura y tiempo ajustables. Sin operario, sin demoras, sin cocina.</p>
+            </div>
+            <span class="spec-arrow">↗</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-n">03</span>
+            <div class="spec-content">
+              <div class="spec-title">Pantalla táctil 32" Ultra HD + múltiples medios de pago</div>
+              <p class="spec-desc">Touchscreen capacitivo resistente de 32" (55" opcional). Acepta Visa, efectivo, monedas y cambio automático. Experiencia de compra intuitiva y moderna.</p>
+            </div>
+            <span class="spec-arrow">↗</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-n">04</span>
+            <div class="spec-content">
+              <div class="spec-title">4G · Wi-Fi · GPS · Backend inteligente</div>
+              <p class="spec-desc">Monitoreo en tiempo real desde cualquier lugar. Stock, temperatura, ventas y alertas en un solo dashboard. Conectividad 4G compatible con todas las redes.</p>
+            </div>
+            <span class="spec-arrow">↗</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-n">05</span>
+            <div class="spec-content">
+              <div class="spec-title">Acero inoxidable 304 · Esterilización por ozono</div>
+              <p class="spec-desc">Construcción en acero grado alimentario 304 con aislamiento de 55 mm. Opción de esterilización por ozono. Brazo XYZ con pinza telescópica y sensor antipellizcamiento infrarrojo.</p>
+            </div>
+            <span class="spec-arrow">↗</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Right: machine visual (desktop) -->
+      <div class="maquina-visual reveal d2">
+        <div class="maquina-frame" style="position:relative;">
+          <div class="maquina-badge">X2-PSJ-9</div>
+          <div class="maquina-machine-large">
+            <div class="machine-body">
+              <div class="m-badge-strip">
+                <span class="m-badge-brand">Aixa Group</span>
+                <span class="m-badge-model">Operativo 24h</span>
+              </div>
+              <div class="m-screen">
+                <div class="m-screen-header">
+                  <span class="m-screen-title">90 canales · Stock en tiempo real</span>
+                  <span class="m-screen-live"><span class="m-live-dot"></span>En vivo</span>
+                </div>
+                <div class="m-pizza-grid" id="pizzaGrid2"></div>
+                <div class="m-metrics">
+                  <div class="m-metric"><div class="m-metric-v">74</div><div class="m-metric-l">Vendidas hoy</div></div>
+                  <div class="m-metric"><div class="m-metric-v">16</div><div class="m-metric-l">En stock</div></div>
+                  <div class="m-metric"><div class="m-metric-v">4G</div><div class="m-metric-l">Conectado</div></div>
+                </div>
+              </div>
+              <div class="m-oven">
+                <div class="m-oven-box"><span class="m-oven-label">Horno activo</span></div>
+                <div class="m-temp">
+                  <div class="m-temp-num">300</div>
+                  <div class="m-temp-unit">°C</div>
+                </div>
+              </div>
+              <div class="m-payment">
+                <span class="m-pay-icon">Visa</span>
+                <span class="m-pay-icon">Efectivo</span>
+                <span class="m-pay-icon">Monedas</span>
+              </div>
+              <div class="m-controls">
+                <div class="m-ctrl-dots">
+                  <div class="m-ctrl-dot on-g"></div>
+                  <div class="m-ctrl-dot on-r"></div>
+                  <div class="m-ctrl-dot off"></div>
+                </div>
+                <span class="m-ctrl-id">AIXA-001 — OPERATIVO</span>
+              </div>
+              <div class="m-connectivity">
+                <span class="m-conn-item active"><span class="m-conn-dot"></span>4G</span>
+                <span class="m-conn-item active"><span class="m-conn-dot"></span>Wi-Fi</span>
+                <span class="m-conn-item active"><span class="m-conn-dot"></span>GPS</span>
+              </div>
+            </div>
+          </div>
+          <div class="maquina-caption">Modelo X2-PSJ-9 — 1990 × 1720 × 1120 mm · 488 kg</div>
+        </div>
+      </div>
+
+      <!-- Mobile carousel (shown ≤ 768px) -->
+      <div class="maquina-carousel reveal d1">
+        <div class="carousel-track" id="maquinaCarousel">
+          <div class="carousel-card">
+            <div class="carousel-card-icon">
+              <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+                <circle cx="20" cy="20" r="13"/><path d="M20 13v7l4 4"/>
+              </svg>
+            </div>
+            <div class="carousel-card-title">90 Pizzas</div>
+            <p class="carousel-card-body">Capacidad para 90 cajas de 22,86 cm. Almacenadas entre −5°C y 8°C con compresor Embraco frost-free.</p>
+          </div>
+          <div class="carousel-card">
+            <div class="carousel-card-icon">
+              <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+                <rect x="5" y="7" width="30" height="22" rx="1"/><path d="M13 33h14M20 29v4"/>
+              </svg>
+            </div>
+            <div class="carousel-card-title">Pantalla 32"</div>
+            <p class="carousel-card-body">Touchscreen Ultra HD. El cliente elige, paga y recibe su pizza caliente. Sin contacto con personal.</p>
+          </div>
+          <div class="carousel-card">
+            <div class="carousel-card-icon">
+              <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+                <path d="M8 16l12-10 12 10v16H8z"/><rect x="15" y="24" width="10" height="8"/>
+              </svg>
+            </div>
+            <div class="carousel-card-title">Horno 300°C</div>
+            <p class="carousel-card-body">30–300°C ajustable. 4.900 W. Calientapizzas en segundos sin intervención humana.</p>
+          </div>
+          <div class="carousel-card">
+            <div class="carousel-card-icon">
+              <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+                <circle cx="20" cy="20" r="12"/><path d="M20 8a12 12 0 010 24M8 20h24M9 14h22M9 26h22"/>
+              </svg>
+            </div>
+            <div class="carousel-card-title">4G · GPS · Wi-Fi</div>
+            <p class="carousel-card-body">Monitoreo en tiempo real. Stock, ventas y alertas en tu móvil desde cualquier lugar del mundo.</p>
+          </div>
+        </div>
+        <div class="carousel-dots">
+          <div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     ESTADÍSTICAS — cream
+══════════════════════════════════════════════════════ -->
+<section id="estadisticas" class="section-cream">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat-block reveal">
+        <div class="stat-num-wrap">
+          <span class="stat-counter" data-target="90">0</span><span class="stat-suffix">pzs</span>
+        </div>
+        <div class="stat-label-main">Por carga</div>
+        <p class="stat-sub">Capacidad máxima de 90 pizzas de 22,86 cm por reposición</p>
+      </div>
+      <div class="stat-block reveal d1">
+        <div class="stat-num-wrap">
+          <span class="stat-counter" data-target="24">0</span><span class="stat-suffix">h</span>
+        </div>
+        <div class="stat-label-main">Sin pausas</div>
+        <p class="stat-sub">Operativa las 24 horas, los 7 días, sin personal ni cocina</p>
+      </div>
+      <div class="stat-block reveal d2">
+        <div class="stat-num-wrap">
+          <span class="stat-counter" data-target="300">0</span><span class="stat-suffix">°C</span>
+        </div>
+        <div class="stat-label-main">Horno integrado</div>
+        <p class="stat-sub">Pizza caliente al momento. Temperatura ajustable 30–300°C</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     CÓMO FUNCIONA — dark
+══════════════════════════════════════════════════════ -->
+<section id="como-funciona" class="section-dark grain" style="padding:120px 0 160px;">
+  <div class="wrap">
+
+    <div class="menu-header">
+      <div class="menu-header-left">
+        <div class="eyebrow reveal">Nuestro Servicio</div>
+        <h2 class="section-title reveal d1">
+          Vos ponés<br>
+          el espacio.<br>
+          <em>Nosotros, todo</em><br>
+          <em>lo demás.</em>
+        </h2>
+      </div>
+      <p class="menu-header-right reveal d2">
+        Aixa Group gestiona el 100% de la operación. Instalación, abastecimiento con Tomasso, mantenimiento y monitoreo en tiempo real — sin que muevas un dedo.
+      </p>
+    </div>
+
+    <!-- Desktop 3×2 grid — service pillars -->
+    <div class="menu-grid">
+
+      <div class="menu-item reveal d1">
+        <div class="menu-plate" style="border-radius:0; aspect-ratio: unset; padding: 44px 32px 44px; display:flex; flex-direction:column; justify-content:flex-start; gap: 16px; min-height: 300px; background: rgba(242,237,224,0.03); border: 1px solid var(--border-dark);">
+          <div style="font-family:var(--font-display);font-size:52px;font-weight:400;color:rgba(201,169,110,0.12);line-height:1;">01</div>
+          <div style="font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--text-on-dark);line-height:1.2;">Instalamos la máquina</div>
+          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Nos encargamos de la instalación completa en tu espacio. Sin obras, sin reformas. La máquina llega lista para operar.</div>
+        </div>
+        <div class="menu-name" style="margin-top:16px;">Instalación</div>
+        <div class="menu-desc">Sin obras · Sin reformas · Sin gestiones</div>
+      </div>
+
+      <div class="menu-item reveal d2">
+        <div class="menu-plate" style="border-radius:0; aspect-ratio: unset; padding: 44px 32px 44px; display:flex; flex-direction:column; justify-content:flex-start; gap: 16px; min-height: 300px; background: rgba(242,237,224,0.03); border: 1px solid var(--border-dark);">
+          <div style="font-family:var(--font-display);font-size:52px;font-weight:400;color:rgba(201,169,110,0.12);line-height:1;">02</div>
+          <div style="font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--text-on-dark);line-height:1.2;">Abastecemos con Tomasso</div>
+          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Trabajamos con Tomasso Pizzas, marca reconocida en Argentina. Reposición constante para que la máquina nunca se quede vacía.</div>
+        </div>
+        <div class="menu-name" style="margin-top:16px;">Abastecimiento</div>
+        <div class="menu-desc">Tomasso Pizzas · Reposición constante</div>
+      </div>
+
+      <div class="menu-item reveal d3">
+        <div class="menu-plate" style="border-radius:0; aspect-ratio: unset; padding: 44px 32px 44px; display:flex; flex-direction:column; justify-content:flex-start; gap: 16px; min-height: 300px; background: rgba(242,237,224,0.03); border: 1px solid var(--border-dark);">
+          <div style="font-family:var(--font-display);font-size:52px;font-weight:400;color:rgba(201,169,110,0.12);line-height:1;">03</div>
+          <div style="font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--text-on-dark);line-height:1.2;">Mantenimiento incluido</div>
+          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Mantenimiento regular preventivo y correctivo. La máquina siempre en condiciones óptimas. Vos no intervenis en nada.</div>
+        </div>
+        <div class="menu-name" style="margin-top:16px;">Mantenimiento</div>
+        <div class="menu-desc">Preventivo · Correctivo · Sin costo extra</div>
+      </div>
+
+      <div class="menu-item reveal d1">
+        <div class="menu-plate" style="border-radius:0; aspect-ratio: unset; padding: 44px 32px 44px; display:flex; flex-direction:column; justify-content:flex-start; gap: 16px; min-height: 300px; background: rgba(242,237,224,0.03); border: 1px solid var(--border-dark);">
+          <div style="font-family:var(--font-display);font-size:52px;font-weight:400;color:rgba(201,169,110,0.12);line-height:1;">04</div>
+          <div style="font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--text-on-dark);line-height:1.2;">Monitoreo en tiempo real</div>
+          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Software propio con GPS y conectividad 4G. Ves ventas, stock y estado de la máquina desde tu móvil. En vivo, 24 horas.</div>
+        </div>
+        <div class="menu-name" style="margin-top:16px;">Software</div>
+        <div class="menu-desc">4G · GPS · Tiempo real · App móvil</div>
+      </div>
+
+      <div class="menu-item reveal d2">
+        <div class="menu-plate" style="border-radius:0; aspect-ratio: unset; padding: 44px 32px 44px; display:flex; flex-direction:column; justify-content:flex-start; gap: 16px; min-height: 300px; background: rgba(242,237,224,0.03); border: 1px solid var(--border-dark);">
+          <div style="font-family:var(--font-display);font-size:52px;font-weight:400;color:rgba(201,169,110,0.12);line-height:1;">05</div>
+          <div style="font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--text-on-dark);line-height:1.2;">Servicio 24/7 sin personal</div>
+          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">La máquina opera sola. No necesita empleados, no cierra, no falla. A las 3 AM en un hospital o a las 6 AM en un aeropuerto.</div>
+        </div>
+        <div class="menu-name" style="margin-top:16px;">Disponibilidad</div>
+        <div class="menu-desc">24 horas · 7 días · Sin personal</div>
+      </div>
+
+      <div class="menu-item reveal d3">
+        <div class="menu-plate" style="border-radius:0; aspect-ratio: unset; padding: 44px 32px 44px; display:flex; flex-direction:column; justify-content:flex-start; gap: 16px; min-height: 300px; background: var(--fire-dim); border: 1px solid rgba(196,67,26,0.2);">
+          <div style="font-family:var(--font-display);font-size:52px;font-weight:400;color:rgba(196,67,26,0.2);line-height:1;">→</div>
+          <div style="font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--text-on-dark);line-height:1.2;">Tu espacio genera ingresos</div>
+          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Hospitales, aeropuertos, universidades, centros comerciales y clubes. Tu espacio vacío se convierte en gastronomía activa.</div>
+        </div>
+        <div class="menu-name" style="margin-top:16px;">El Resultado</div>
+        <div class="menu-desc">Ingresos pasivos · Sin gestión diaria</div>
+      </div>
+
+    </div>
+
+    <!-- Mobile snap slider -->
+    <div class="menu-snap" id="menuSnap">
+      <div class="menu-snap-item">
+        <div style="padding:36px 24px;border:1px solid var(--border-dark);min-height:260px;display:flex;flex-direction:column;justify-content:flex-end;">
+          <div style="font-family:var(--font-display);font-size:40px;color:rgba(201,169,110,0.15);margin-bottom:12px;">01</div>
+          <div class="menu-name" style="text-align:left;">Instalamos la máquina</div>
+          <div class="menu-desc" style="text-align:left;margin-top:6px;">Sin obras ni reformas. Lista para operar desde el primer día.</div>
+        </div>
+      </div>
+      <div class="menu-snap-item">
+        <div style="padding:36px 24px;border:1px solid var(--border-dark);min-height:260px;display:flex;flex-direction:column;justify-content:flex-end;">
+          <div style="font-family:var(--font-display);font-size:40px;color:rgba(201,169,110,0.15);margin-bottom:12px;">02</div>
+          <div class="menu-name" style="text-align:left;">Tomasso Pizzas</div>
+          <div class="menu-desc" style="text-align:left;margin-top:6px;">Proveedor de confianza. Reposición constante garantizada.</div>
+        </div>
+      </div>
+      <div class="menu-snap-item">
+        <div style="padding:36px 24px;border:1px solid var(--border-dark);min-height:260px;display:flex;flex-direction:column;justify-content:flex-end;">
+          <div style="font-family:var(--font-display);font-size:40px;color:rgba(201,169,110,0.15);margin-bottom:12px;">03</div>
+          <div class="menu-name" style="text-align:left;">Mantenimiento</div>
+          <div class="menu-desc" style="text-align:left;margin-top:6px;">Preventivo y correctivo incluido. Sin costo adicional.</div>
+        </div>
+      </div>
+      <div class="menu-snap-item">
+        <div style="padding:36px 24px;border:1px solid var(--border-dark);min-height:260px;display:flex;flex-direction:column;justify-content:flex-end;">
+          <div style="font-family:var(--font-display);font-size:40px;color:rgba(201,169,110,0.15);margin-bottom:12px;">04</div>
+          <div class="menu-name" style="text-align:left;">Software en tiempo real</div>
+          <div class="menu-desc" style="text-align:left;margin-top:6px;">4G · GPS · App móvil. Ves todo desde cualquier lugar.</div>
+        </div>
+      </div>
+      <div class="menu-snap-item">
+        <div style="padding:36px 24px;border:1px solid rgba(196,67,26,0.2);background:var(--fire-dim);min-height:260px;display:flex;flex-direction:column;justify-content:flex-end;">
+          <div style="font-family:var(--font-display);font-size:40px;color:rgba(196,67,26,0.2);margin-bottom:12px;">→</div>
+          <div class="menu-name" style="text-align:left;">Tu espacio genera</div>
+          <div class="menu-desc" style="text-align:left;margin-top:6px;">Ingresos pasivos sin gestión diaria. 24/7 sin personal.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     TOMASSO — cream (partnership)
+══════════════════════════════════════════════════════ -->
+<section id="tomasso" class="section-cream">
+  <div class="wrap">
+    <div class="contacto-grid" style="align-items:center;">
+      <div class="reveal">
+        <div class="eyebrow">Nuestro Proveedor</div>
+        <h2 class="section-title" style="font-size:clamp(36px,3.5vw,54px);margin-top:20px;color:var(--text-on-cream);">
+          Pizzas<br>
+          <em>Tomasso.</em><br>
+          De confianza.
+        </h2>
+        <p class="contacto-desc">
+          Trabajamos con Tomasso Pizzas, una de las marcas más reconocidas de Argentina. Sus pizzas de 22,86 cm (9 pulgadas) son producidas con ingredientes de primera calidad y llegan a la máquina listas para ser calentadas al momento.
+        </p>
+        <p style="font-size:14px;font-weight:300;color:var(--text-muted-on-cream);line-height:1.75;margin-bottom:32px;">
+          La alianza con Tomasso garantiza un suministro constante, calidad consistente y la confianza de una marca establecida. Vos no buscás proveedores — nosotros ya lo hicimos.
+        </p>
+        <a href="https://tomassopizzas.com.ar" target="_blank" rel="noopener" class="btn-outline" style="border-color:var(--border-cream);color:var(--text-muted-on-cream);">
+          Ver Tomasso Pizzas ↗
+        </a>
+      </div>
+      <div class="reveal d2">
+        <!-- Tomasso visual placeholder -->
+        <div style="border:1px solid var(--border-cream);padding:48px;display:flex;flex-direction:column;gap:24px;">
+          <div style="border-bottom:1px solid var(--border-cream);padding-bottom:24px;">
+            <div style="font-family:var(--font-display);font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted-on-cream);margin-bottom:8px;">Proveedor oficial</div>
+            <div style="font-family:var(--font-display);font-size:40px;font-weight:500;color:var(--text-on-cream);letter-spacing:0.04em;">Tomasso</div>
+            <div style="font-size:12px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted-on-cream);margin-top:4px;">Pizzas · Argentina</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div style="padding:20px;border:1px solid var(--border-cream);">
+              <div style="font-family:var(--font-display);font-size:28px;color:var(--umber);">9"</div>
+              <div style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted-on-cream);margin-top:4px;">Tamaño estándar</div>
+            </div>
+            <div style="padding:20px;border:1px solid var(--border-cream);">
+              <div style="font-family:var(--font-display);font-size:28px;color:var(--umber);">90</div>
+              <div style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted-on-cream);margin-top:4px;">Por carga</div>
+            </div>
+            <div style="padding:20px;border:1px solid var(--border-cream);grid-column:1/-1;">
+              <div style="font-size:12px;font-weight:400;color:var(--text-on-cream);margin-bottom:6px;">Cadena de frío garantizada</div>
+              <div style="font-size:12px;font-weight:300;color:var(--text-muted-on-cream);line-height:1.6;">Las pizzas se almacenan entre −5°C y 8°C. El horno integrado las calienta a 300°C al momento del pedido.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     DÓNDE INSTALAMOS — dark
+══════════════════════════════════════════════════════ -->
+<section id="ubicaciones" class="section-dark grain" style="padding:120px 0;">
+  <div class="wrap">
+    <div style="text-align:center;max-width:680px;margin:0 auto 72px;" class="reveal">
+      <div class="eyebrow" style="justify-content:center;">Ubicaciones Ideales</div>
+      <h2 class="section-title" style="font-size:clamp(36px,4vw,58px);margin-top:20px;">
+        Espacios donde<br>
+        la gente merece<br>
+        <em>comer bien.</em>
+      </h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border-dark);border:1px solid var(--border-dark);" class="reveal d1">
+      <div style="background:var(--espresso);padding:40px 32px;transition:background 0.3s;" onmouseenter="this.style.background='#1e1306'" onmouseleave="this.style.background='var(--espresso)'">
+        <div style="font-size:28px;margin-bottom:20px;">🏥</div>
+        <div style="font-family:var(--font-display);font-size:20px;font-weight:400;color:var(--text-on-dark);margin-bottom:10px;">Hospitales</div>
+        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Personal de guardia, familiares y pacientes. Demanda las 24h donde los comedores cierran a las 21h.</div>
+      </div>
+      <div style="background:var(--espresso);padding:40px 32px;transition:background 0.3s;" onmouseenter="this.style.background='#1e1306'" onmouseleave="this.style.background='var(--espresso)'">
+        <div style="font-size:28px;margin-bottom:20px;">✈️</div>
+        <div style="font-family:var(--font-display);font-size:20px;font-weight:400;color:var(--text-on-dark);margin-bottom:10px;">Aeropuertos</div>
+        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Pasajeros en tránsito, vuelos nocturnos, personal de tierra. Alto tráfico permanente sin pausas.</div>
+      </div>
+      <div style="background:var(--espresso);padding:40px 32px;transition:background 0.3s;" onmouseenter="this.style.background='#1e1306'" onmouseleave="this.style.background='var(--espresso)'">
+        <div style="font-size:28px;margin-bottom:20px;">🎓</div>
+        <div style="font-family:var(--font-display);font-size:20px;font-weight:400;color:var(--text-on-dark);margin-bottom:10px;">Universidades</div>
+        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Estudiantes y docentes en horarios extendidos. Clases nocturnas, finales, turnos maratónicos de estudio.</div>
+      </div>
+      <div style="background:var(--espresso);padding:40px 32px;transition:background 0.3s;" onmouseenter="this.style.background='#1e1306'" onmouseleave="this.style.background='var(--espresso)'">
+        <div style="font-size:28px;margin-bottom:20px;">🛍️</div>
+        <div style="font-family:var(--font-display);font-size:20px;font-weight:400;color:var(--text-on-dark);margin-bottom:10px;">Centros Comerciales</div>
+        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Una opción gastronómica más en el patio de comidas. Sin alquiler de local completo, sin personal propio.</div>
+      </div>
+      <div style="background:var(--espresso);padding:40px 32px;transition:background 0.3s;" onmouseenter="this.style.background='#1e1306'" onmouseleave="this.style.background='var(--espresso)'">
+        <div style="font-size:28px;margin-bottom:20px;">⚽</div>
+        <div style="font-family:var(--font-display);font-size:20px;font-weight:400;color:var(--text-on-dark);margin-bottom:10px;">Clubes y Estadios</div>
+        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Socios, familias y público en eventos. Demanda pico en horarios específicos, sin necesidad de cocina permanente.</div>
+      </div>
+      <div style="background:var(--fire-dim);border:1px solid rgba(196,67,26,0.15);padding:40px 32px;">
+        <div style="font-size:28px;margin-bottom:20px;">📍</div>
+        <div style="font-family:var(--font-display);font-size:20px;font-weight:400;color:var(--text-on-dark);margin-bottom:10px;">Tu espacio</div>
+        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Si tenés un espacio con tráfico de personas, hay una oportunidad. Hablemos y lo evaluamos juntos.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     MENÚ REAL — dark (Tomasso pizzas)
+══════════════════════════════════════════════════════ -->
+<section id="menu" class="section-dark grain" style="padding:140px 0;">
+  <div class="wrap">
+    <div class="menu-header">
+      <div class="menu-header-left">
+        <div class="eyebrow reveal">Nuestro Menú</div>
+        <h2 class="section-title reveal d1">
+          Las pizzas<br>
+          <em>Tomasso.</em>
+        </h2>
+      </div>
+      <p class="menu-header-right reveal d2">
+        Producidas en nuestra fábrica, con ingredientes seleccionados. Almacenadas en frío y calentadas al instante por el horno integrado de la máquina.
+      </p>
+    </div>
+
+    <!-- Desktop 2×2 grid with real images -->
+    <div class="menu-grid" style="grid-template-columns: repeat(4,1fr); gap: 28px;">
+
+      <div class="menu-item reveal d1">
+        <div class="menu-plate">
+          <img src="https://tomassopizzas.com.ar/wp-content/uploads/2025/11/Muzarella.png"
+               alt="Pizza Muzzarela Tomasso"
+               style="width:100%;height:100%;object-fit:contain;"
+               loading="lazy" />
+          <div class="menu-plate-overlay"></div>
+          <div class="menu-plate-badge"><span>Ver ingredientes ↗</span></div>
+        </div>
+        <div class="menu-name">Muzzarela</div>
+        <div class="menu-desc">Masa · Salsa de tomate · Muzzarella · Orégano</div>
+      </div>
+
+      <div class="menu-item reveal d2">
+        <div class="menu-plate">
+          <img src="https://tomassopizzas.com.ar/wp-content/uploads/2025/11/Jamon-y-morron.png"
+               alt="Pizza Jamón y Morrón Tomasso"
+               style="width:100%;height:100%;object-fit:contain;"
+               loading="lazy" />
+          <div class="menu-plate-overlay"></div>
+          <div class="menu-plate-badge"><span>Ver ingredientes ↗</span></div>
+        </div>
+        <div class="menu-name">Jamón y Morrón</div>
+        <div class="menu-desc">Masa · Tomate · Muzzarella · Jamón · Morrón rojo · Orégano</div>
+      </div>
+
+      <div class="menu-item reveal d3">
+        <div class="menu-plate">
+          <img src="https://tomassopizzas.com.ar/wp-content/uploads/2025/11/4Quesos.png"
+               alt="Pizza 4 Quesos Tomasso"
+               style="width:100%;height:100%;object-fit:contain;"
+               loading="lazy" />
+          <div class="menu-plate-overlay"></div>
+          <div class="menu-plate-badge"><span>Ver ingredientes ↗</span></div>
+        </div>
+        <div class="menu-name">4 Quesos</div>
+        <div class="menu-desc">Masa · Tomate · Muzzarella · Cheddar · Roquefort · Parmesano · Orégano</div>
+      </div>
+
+      <div class="menu-item reveal d4">
+        <div class="menu-plate">
+          <img src="https://tomassopizzas.com.ar/wp-content/uploads/2025/11/Provoleta-y-jamon.png"
+               alt="Pizza Provoleta y Jamón Tomasso"
+               style="width:100%;height:100%;object-fit:contain;"
+               loading="lazy" />
+          <div class="menu-plate-overlay"></div>
+          <div class="menu-plate-badge"><span>Ver ingredientes ↗</span></div>
+        </div>
+        <div class="menu-name">Provoleta y Jamón</div>
+        <div class="menu-desc">Masa · Tomate · Jamón · Muzzarella · Provoleta</div>
+      </div>
+
+    </div>
+
+    <!-- Mobile snap slider -->
+    <div class="menu-snap" id="menuSnapPizzas">
+      <div class="menu-snap-item">
+        <div class="menu-plate" style="border-radius:8px;background:#0a0704;">
+          <img src="https://tomassopizzas.com.ar/wp-content/uploads/2025/11/Muzarella.png" alt="Muzzarela" style="width:100%;height:100%;object-fit:contain;" loading="lazy"/>
+          <div class="menu-plate-overlay"></div>
+        </div>
+        <div class="menu-name">Muzzarela</div>
+        <div class="menu-desc">Masa · Tomate · Muzzarella · Orégano</div>
+      </div>
+      <div class="menu-snap-item">
+        <div class="menu-plate" style="border-radius:8px;background:#0a0704;">
+          <img src="https://tomassopizzas.com.ar/wp-content/uploads/2025/11/Jamon-y-morron.png" alt="Jamón y Morrón" style="width:100%;height:100%;object-fit:contain;" loading="lazy"/>
+          <div class="menu-plate-overlay"></div>
+        </div>
+        <div class="menu-name">Jamón y Morrón</div>
+        <div class="menu-desc">Masa · Tomate · Muzzarella · Jamón · Morrón · Orégano</div>
+      </div>
+      <div class="menu-snap-item">
+        <div class="menu-plate" style="border-radius:8px;background:#0a0704;">
+          <img src="https://tomassopizzas.com.ar/wp-content/uploads/2025/11/4Quesos.png" alt="4 Quesos" style="width:100%;height:100%;object-fit:contain;" loading="lazy"/>
+          <div class="menu-plate-overlay"></div>
+        </div>
+        <div class="menu-name">4 Quesos</div>
+        <div class="menu-desc">Masa · Tomate · Muzzarella · Cheddar · Roquefort · Parmesano</div>
+      </div>
+      <div class="menu-snap-item">
+        <div class="menu-plate" style="border-radius:8px;background:#0a0704;">
+          <img src="https://tomassopizzas.com.ar/wp-content/uploads/2025/11/Provoleta-y-jamon.png" alt="Provoleta y Jamón" style="width:100%;height:100%;object-fit:contain;" loading="lazy"/>
+          <div class="menu-plate-overlay"></div>
+        </div>
+        <div class="menu-name">Provoleta y Jamón</div>
+        <div class="menu-desc">Masa · Tomate · Jamón · Muzzarella · Provoleta</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     ESLOGAN — cream
+══════════════════════════════════════════════════════ -->
+<section id="eslogan" class="section-cream" style="padding:120px 0;overflow:hidden;position:relative;">
+  <div class="wrap">
+    <div class="quote-inner reveal" style="max-width:900px;margin:0 auto;text-align:center;">
+      <p style="font-family:var(--font-display);font-size:clamp(14px,1.4vw,18px);font-weight:400;letter-spacing:0.22em;text-transform:uppercase;color:var(--umber);margin-bottom:32px;">Aixa Group</p>
+      <p class="quote-text" style="font-style:normal;font-weight:500;color:var(--text-on-cream);line-height:1.15;">
+        Tu espacio.<br>
+        <span style="font-style:italic;color:var(--umber);">Nuestra pizzería.</span>
+      </p>
+      <p style="margin-top:36px;font-size:15px;font-weight:300;color:var(--text-muted-on-cream);max-width:560px;margin-left:auto;margin-right:auto;line-height:1.8;">
+        Gastronomía real, disponible las 24 horas, en el corazón de tu espacio. Sin cocina. Sin personal. Sin complicaciones.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     CTA — dark
+══════════════════════════════════════════════════════ -->
+<section id="cta" class="section-dark grain">
+  <div class="wrap">
+    <div class="cta-inner reveal">
+      <h2 class="cta-title">
+        Gastronomía 24h<br>
+        <em>sin el restaurante.</em>
+      </h2>
+      <p class="cta-sub">
+        Contanos dónde está tu espacio. Evaluamos la ubicación, te presentamos la propuesta y te decimos si es viable — sin costo ni compromiso.
+      </p>
+      <div class="cta-buttons">
+        <a href="https://wa.me/5491123462744?text=Hola%2C%20quiero%20información%20sobre%20Aixa%20Group" class="btn-wa" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          WhatsApp
+        </a>
+        <a href="#contacto" class="btn-fire magnetic">Solicitar Demo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     CONTACTO — cream
+══════════════════════════════════════════════════════ -->
+<section id="contacto" class="section-cream">
+  <div class="wrap">
+    <div class="contacto-grid">
+
+      <div class="reveal">
+        <div class="eyebrow">Contacto</div>
+        <h2 class="section-title">
+          Tenés el<br>
+          espacio. <em>Nosotros</em><br>
+          <em>hacemos el resto.</em>
+        </h2>
+        <p class="contacto-desc">
+          Respondemos en menos de 4 horas. Evaluamos tu ubicación sin costo y sin compromiso — hospitales, aeropuertos, universidades, malls, clubes o cualquier espacio con tráfico.
+        </p>
+        <ul class="contacto-details">
+          <li class="contacto-detail">
+            <span class="detail-key">Email</span>
+            <span class="detail-val">aixagroup74@gmail.com</span>
+          </li>
+          <li class="contacto-detail">
+            <span class="detail-key">WhatsApp</span>
+            <span class="detail-val">+54 9 11 2346-2744</span>
+          </li>
+          <li class="contacto-detail">
+            <span class="detail-key">Horario</span>
+            <span class="detail-val">Lun–Vie, 9:00–18:00</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="reveal d2">
+        <form class="contact-form" onsubmit="return false;">
+          <div class="form-row-2">
+            <div class="f-field">
+              <label class="f-label" for="nombre">Nombre</label>
+              <input class="f-input" type="text" id="nombre" name="nombre" placeholder="Juan García" autocomplete="given-name" />
+            </div>
+            <div class="f-field">
+              <label class="f-label" for="email">Email</label>
+              <input class="f-input" type="email" id="email" name="email" placeholder="juan@negocio.com" autocomplete="email" />
+            </div>
+          </div>
+          <div class="f-field f-field-full" style="border-right:none;">
+            <label class="f-label" for="telefono">Teléfono / WhatsApp</label>
+            <input class="f-input" type="tel" id="telefono" name="telefono" placeholder="+1 234 567 8900" autocomplete="tel" />
+          </div>
+          <div class="f-field f-field-full" style="border-right:none;">
+            <label class="f-label" for="mensaje">Mensaje</label>
+            <textarea class="f-textarea" id="mensaje" name="mensaje" placeholder="Tengo un espacio en… (hospital / aeropuerto / universidad / mall / club) y me interesa…"></textarea>
+          </div>
+          <div class="form-footer">
+            <span class="form-note">Respuesta garantizada en &lt; 4h</span>
+            <button type="submit" class="form-submit">Enviar Consulta</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     FOOTER — dark
+══════════════════════════════════════════════════════ -->
+<footer class="section-dark">
+  <div class="wrap">
+    <div class="footer-inner">
+      <span class="footer-logo">Aixa Group</span>
+      <ul class="footer-nav">
+        <li><a href="#problema">El Problema</a></li>
+        <li><a href="#maquina">La Máquina</a></li>
+        <li><a href="#como-funciona">Cómo Funciona</a></li>
+        <li><a href="#ubicaciones">Ubicaciones</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <p class="footer-copy">© 2026 Aixa Group. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════════════════════════════════
+     MOBILE FIXED CTA BAR (PRD requirement)
+══════════════════════════════════════════════════════ -->
+<div class="mobile-cta-bar">
+  <a href="#contacto" class="mcta-demo">Demo</a>
+  <a href="https://wa.me/5491123462744?text=Hola%2C%20quiero%20info%20sobre%20Aixa%20Group" class="mcta-wa" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    WhatsApp
+  </a>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Nav scroll state ─────────────────────── */
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 60);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ── Hamburger / mobile overlay ──────────── */
+  const hamburger = document.getElementById('hamburger');
+  const overlay   = document.getElementById('mobileOverlay');
+
+  hamburger.addEventListener('click', () => {
+    const open = overlay.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  overlay.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      overlay.classList.remove('open');
+      hamburger.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  /* ── Scroll reveal ───────────────────────── */
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -32px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ── Mobile problem storytelling ─────────── */
+  const probMobileCards = document.querySelectorAll('.prob-card-mobile');
+  if (probMobileCards.length) {
+    const probObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        e.target.classList.toggle('active', e.isIntersecting);
+      });
+    }, { threshold: 0.45 });
+    probMobileCards.forEach(c => probObs.observe(c));
+  }
+
+  /* ── Counter animation ───────────────────── */
+  const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+
+  function animateCounter(el, target, duration) {
+    let startTime = null;
+    const step = (ts) => {
+      if (!startTime) startTime = ts;
+      const p = Math.min((ts - startTime) / duration, 1);
+      el.textContent = Math.round(easeOutCubic(p) * target);
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = target;
+    };
+    requestAnimationFrame(step);
+  }
+
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el     = e.target;
+        const target = parseInt(el.dataset.target, 10);
+        animateCounter(el, target, 1800);
+        counterObs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.stat-counter').forEach(el => counterObs.observe(el));
+
+  /* ── Machine carousel dots ───────────────── */
+  const carouselTrack = document.getElementById('maquinaCarousel');
+  const dots = document.querySelectorAll('.carousel-dot');
+
+  if (carouselTrack && dots.length) {
+    carouselTrack.addEventListener('scroll', () => {
+      const index = Math.round(carouselTrack.scrollLeft / carouselTrack.clientWidth);
+      dots.forEach((d, i) => d.classList.toggle('active', i === index));
+    }, { passive: true });
+  }
+
+  /* ── Magnetic buttons (desktop only) ─────── */
+  if (window.matchMedia('(pointer: fine)').matches) {
+    document.querySelectorAll('.magnetic').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const r  = btn.getBoundingClientRect();
+        const x  = e.clientX - r.left - r.width  / 2;
+        const y  = e.clientY - r.top  - r.height / 2;
+        btn.style.transform = `translate(${x * 0.28}px, ${y * 0.28}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+        btn.style.transition = 'transform 0.5s cubic-bezier(0.16,1,0.3,1), background 0.25s, box-shadow 0.25s';
+        setTimeout(() => { btn.style.transition = ''; }, 500);
+      });
+    });
+  }
+
+  /* ── Ticker pause on hover ───────────────── */
+  const ticker = document.querySelector('.ticker-track');
+  if (ticker) {
+    ticker.addEventListener('mouseenter', () => ticker.style.animationPlayState = 'paused');
+    ticker.addEventListener('mouseleave', () => ticker.style.animationPlayState = 'running');
+  }
+
+  /* ── Pizza grid visualization ─────────────── */
+  function buildPizzaGrid(containerId, total, filled) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    el.innerHTML = '';
+    for (let i = 0; i < total; i++) {
+      const slot = document.createElement('div');
+      slot.className = 'm-pizza-slot' + (i < filled ? ' filled' : '');
+      el.appendChild(slot);
+    }
+  }
+
+  buildPizzaGrid('pizzaGrid',  30, 16);
+  buildPizzaGrid('pizzaGrid2', 30, 16);
+
+  // Simulate a dispense event every 8 seconds
+  let dispensing = false;
+  setInterval(() => {
+    if (dispensing) return;
+    dispensing = true;
+    ['pizzaGrid', 'pizzaGrid2'].forEach(id => {
+      const grid = document.getElementById(id);
+      if (!grid) return;
+      const filled = grid.querySelectorAll('.filled');
+      if (filled.length === 0) return;
+      const last = filled[filled.length - 1];
+      last.classList.add('dispensing');
+      setTimeout(() => {
+        last.classList.remove('filled', 'dispensing');
+        dispensing = false;
+        // update metric display
+        const remaining = grid.querySelectorAll('.filled').length;
+        const soldEl = id === 'pizzaGrid' ? document.getElementById('metricSold') : null;
+        const stockEl = id === 'pizzaGrid' ? document.getElementById('metricStock') : null;
+        if (soldEl) soldEl.textContent = parseInt(soldEl.textContent || 0) + 1;
+        if (stockEl) stockEl.textContent = remaining;
+      }, 1200);
+    });
+  }, 8000);
+
+  /* ── Responsive grid fix (ubicaciones) ───── */
+  function fixUbicacionesGrid() {
+    const grid = document.querySelector('#ubicaciones [style*="grid-template-columns:repeat(3"]');
+    if (grid && window.innerWidth <= 768) {
+      grid.style.gridTemplateColumns = '1fr';
+    } else if (grid) {
+      grid.style.gridTemplateColumns = 'repeat(3,1fr)';
+    }
+  }
+  fixUbicacionesGrid();
+  window.addEventListener('resize', fixUbicacionesGrid, { passive: true });
+
+})();
+</script>
+
+</body>
+</html>
