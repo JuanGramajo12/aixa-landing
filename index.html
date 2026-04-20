@@ -512,7 +512,16 @@ input, textarea { font-family: inherit; }
   z-index: 1;
 }
 
-/* Hero right: machine */
+/* Hero right: machine photo */
+.hero-machine-img {
+  max-height: 100vh;
+  width: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  animation: fadeIn 1s var(--ease-expo) 0.6s both;
+}
+
 .hero-right {
   position: relative;
   z-index: 2;
@@ -1879,83 +1888,11 @@ footer {
   </div>
 
   <div class="hero-right">
-    <div class="machine" style="position:relative;">
-      <div class="machine-body">
-
-        <!-- Top branding strip -->
-        <div class="m-badge-strip">
-          <span class="m-badge-brand">Aixa Group</span>
-          <span class="m-badge-model">X2-PSJ-9 · Operativo</span>
-        </div>
-
-        <!-- 32" touchscreen — pizza grid + analytics -->
-        <div class="m-screen">
-          <div class="m-screen-header">
-            <span class="m-screen-title">90 canales · Stock en tiempo real</span>
-            <span class="m-screen-live"><span class="m-live-dot"></span>En vivo</span>
-          </div>
-          <!-- 6×5 = 30 slots visible representing the grid -->
-          <div class="m-pizza-grid" id="pizzaGrid">
-            <!-- JS fills these -->
-          </div>
-          <div class="m-metrics">
-            <div class="m-metric"><div class="m-metric-v" id="metricSold">74</div><div class="m-metric-l">Vendidas hoy</div></div>
-            <div class="m-metric"><div class="m-metric-v" id="metricStock">16</div><div class="m-metric-l">En stock</div></div>
-            <div class="m-metric"><div class="m-metric-v">4G</div><div class="m-metric-l">Conectado</div></div>
-          </div>
-        </div>
-
-        <!-- Oven zone -->
-        <div class="m-oven">
-          <div class="m-oven-box">
-            <span class="m-oven-label">Horno activo</span>
-          </div>
-          <div class="m-temp">
-            <div class="m-temp-num">300</div>
-            <div class="m-temp-unit">°C</div>
-          </div>
-        </div>
-
-        <!-- Payment methods -->
-        <div class="m-payment">
-          <span class="m-pay-icon">Visa</span>
-          <span class="m-pay-icon">Efectivo</span>
-          <span class="m-pay-icon">Monedas</span>
-          <span class="m-pay-icon">QR</span>
-        </div>
-
-        <!-- Status -->
-        <div class="m-controls">
-          <div class="m-ctrl-dots">
-            <div class="m-ctrl-dot on-g"></div>
-            <div class="m-ctrl-dot on-r"></div>
-            <div class="m-ctrl-dot off"></div>
-          </div>
-          <span class="m-ctrl-id">AIXA-001 — OPERATIVO</span>
-        </div>
-
-        <!-- Connectivity -->
-        <div class="m-connectivity">
-          <span class="m-conn-item active"><span class="m-conn-dot"></span>4G</span>
-          <span class="m-conn-item active"><span class="m-conn-dot"></span>Wi-Fi</span>
-          <span class="m-conn-item active"><span class="m-conn-dot"></span>GPS</span>
-        </div>
-      </div>
-
-      <!-- Hotspots (desktop only) -->
-      <div class="hotspot hs-1">
-        <div class="hs-ring"></div>
-        <div class="hs-tip">Pantalla táctil 32" Ultra HD</div>
-      </div>
-      <div class="hotspot hs-2">
-        <div class="hs-ring"></div>
-        <div class="hs-tip">Horno integrado 30–300°C</div>
-      </div>
-      <div class="hotspot hs-3">
-        <div class="hs-ring"></div>
-        <div class="hs-tip">Pago: tarjeta, efectivo, monedas</div>
-      </div>
-    </div>
+    <img
+      src="creative-Edit.png"
+      alt="Máquina vending de pizza Aixa Group"
+      class="hero-machine-img"
+    />
   </div>
 </section>
 
@@ -2924,5 +2861,70 @@ footer {
 })();
 </script>
 
+
+<script>
+(function() {
+  const img = document.querySelector('.hero-machine-img');
+  if (!img) return;
+
+  function removeWhiteBg(image) {
+    const canvas = document.createElement('canvas');
+    const W = image.naturalWidth, H = image.naturalHeight;
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(image, 0, 0);
+
+    const imgData = ctx.getImageData(0, 0, W, H);
+    const d = imgData.data;
+    const visited = new Uint8Array(W * H);
+
+    function isBg(x, y) {
+      const i = (y * W + x) * 4;
+      const r = d[i], g = d[i+1], b = d[i+2];
+      return (r + g + b) / 3 > 175 && Math.max(r,g,b) - Math.min(r,g,b) < 55;
+    }
+
+    // BFS flood-fill from every edge pixel
+    const queue = [];
+    for (let x = 0; x < W; x++) {
+      if (isBg(x, 0))   queue.push(x + 0 * W);
+      if (isBg(x, H-1)) queue.push(x + (H-1) * W);
+    }
+    for (let y = 1; y < H-1; y++) {
+      if (isBg(0,   y)) queue.push(0   + y * W);
+      if (isBg(W-1, y)) queue.push(W-1 + y * W);
+    }
+
+    let qi = 0;
+    while (qi < queue.length) {
+      const pos = queue[qi++];
+      if (visited[pos]) continue;
+      const x = pos % W, y = (pos / W) | 0;
+      if (!isBg(x, y)) continue;
+      visited[pos] = 1;
+
+      // Smooth alpha based on how white/grey the pixel is
+      const i = pos * 4;
+      const brightness = (d[i] + d[i+1] + d[i+2]) / 3;
+      const t = Math.max(0, Math.min(1, (brightness - 160) / 95));
+      d[i+3] = Math.round(d[i+3] * (1 - t));
+
+      if (x > 0)   queue.push(pos - 1);
+      if (x < W-1) queue.push(pos + 1);
+      if (y > 0)   queue.push(pos - W);
+      if (y < H-1) queue.push(pos + W);
+    }
+
+    ctx.putImageData(imgData, 0, 0);
+    image.src = canvas.toDataURL('image/png');
+  }
+
+  if (img.complete && img.naturalWidth) {
+    removeWhiteBg(img);
+  } else {
+    img.addEventListener('load', function() { removeWhiteBg(img); }, { once: true });
+  }
+})();
+</script>
 </body>
 </html>
