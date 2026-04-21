@@ -379,13 +379,13 @@ input, textarea { font-family: inherit; }
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 80px 48px 80px 48px;
+  padding: 40px 48px 60px 48px;
 }
 
 .hero-eyebrow {
   opacity: 0;
   animation: fadeIn 0.8s var(--ease-expo) 0.2s forwards;
-  margin-bottom: 36px;
+  margin-bottom: 24px;
 }
 
 /* Word-by-word headline reveal */
@@ -1276,27 +1276,6 @@ input, textarea { font-family: inherit; }
   background: radial-gradient(ellipse at center, transparent 45%, rgba(17,8,0,0.45) 100%);
 }
 
-.menu-plate-badge {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.menu-item:hover .menu-plate-badge { opacity: 1; }
-.menu-plate-badge span {
-  background: rgba(17,8,0,0.85);
-  border: 1px solid var(--gold);
-  padding: 9px 18px;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--gold);
-  backdrop-filter: blur(8px);
-}
 
 .menu-name {
   font-family: var(--font-display);
@@ -1796,8 +1775,162 @@ footer {
   .cta-buttons a { width: 100%; max-width: 320px; justify-content: center; }
 }
 
+/* ═══════════════════════════════════════════════════════════
+   18. WHATSAPP FLOATING BUTTON
+═══════════════════════════════════════════════════════════ */
+.wa-float {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 300;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #25D366;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.45);
+  transition: transform 0.2s var(--ease-expo), box-shadow 0.2s;
+  text-decoration: none;
+}
+.wa-float:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(37,211,102,0.55);
+}
+.wa-float svg { width: 28px; height: 28px; fill: currentColor; flex-shrink: 0; }
+@media (max-width: 768px) {
+  .wa-float { bottom: 80px; right: 16px; width: 50px; height: 50px; }
+  .wa-float svg { width: 24px; height: 24px; }
+}
+
 @media (min-width: 1441px) {
   .wrap { padding: 0 60px; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   19. PROCESO
+═══════════════════════════════════════════════════════════ */
+#proceso {
+  padding: 140px 0;
+  position: relative;
+}
+.proceso-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+.proceso-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 18px;
+}
+.proceso-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4vw, 60px);
+  font-weight: 400;
+  color: var(--text-on-dark);
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+.proceso-title em { font-style: italic; color: var(--gold); }
+.proceso-intro {
+  font-size: 15px;
+  color: var(--text-muted-on-dark);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+.proceso-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2px;
+  background: rgba(201,169,110,0.12);
+  border: 1px solid rgba(201,169,110,0.12);
+}
+.proceso-step {
+  background: var(--bg-dark);
+  padding: 48px 36px;
+  position: relative;
+  transition: background 0.3s;
+}
+.proceso-step:hover { background: rgba(201,169,110,0.04); }
+.step-num {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 400;
+  color: rgba(201,169,110,0.15);
+  line-height: 1;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+.step-title {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.step-desc {
+  font-size: 14px;
+  color: var(--text-muted-on-dark);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+.step-details {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.step-details li {
+  font-size: 13px;
+  color: var(--text-muted-on-dark);
+  line-height: 1.6;
+  padding-left: 16px;
+  position: relative;
+  opacity: 0.8;
+}
+.step-details li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 4px;
+  height: 1px;
+  background: var(--gold);
+}
+.proceso-nota {
+  text-align: center;
+  margin-top: 52px;
+  padding: 32px 40px;
+  border: 1px solid rgba(201,169,110,0.2);
+  background: rgba(201,169,110,0.04);
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.proceso-nota p {
+  font-size: 14px;
+  color: var(--text-muted-on-dark);
+  line-height: 1.8;
+}
+.proceso-nota strong {
+  color: var(--gold);
+  font-weight: 600;
+}
+@media (max-width: 768px) {
+  #proceso { padding: 80px 0; }
+  .proceso-steps { grid-template-columns: 1fr; }
+  .proceso-nota { padding: 24px 20px; }
 }
 
   </style>
@@ -1816,6 +1949,7 @@ footer {
     <li><a href="#problema">Qué Ofrecemos</a></li>
     <li><a href="#maquina">La Máquina</a></li>
     <li><a href="#como-funciona">Cómo Funciona</a></li>
+    <li><a href="#proceso">Nuestro Proceso</a></li>
     <li><a href="#contacto">Contacto</a></li>
   </ul>
   <a href="#contacto" class="nav-demo">Quiero una Máquina</a>
@@ -1829,6 +1963,7 @@ footer {
   <a href="#problema">Qué Ofrecemos</a>
   <a href="#maquina">La Máquina</a>
   <a href="#como-funciona">Cómo Funciona</a>
+  <a href="#proceso">Nuestro Proceso</a>
   <a href="#contacto">Contacto</a>
   <div class="mobile-overlay-bottom">
     <a href="#contacto" class="mob-btn-demo">Quiero una Máquina</a>
@@ -1844,10 +1979,6 @@ footer {
   <div class="hero-divider"></div>
 
   <div class="hero-left">
-    <div style="margin-bottom:28px;">
-      <img src="logo.png" alt="Aixa Group"
-           style="height:72px;width:auto;display:block;" />
-    </div>
     <div class="hero-eyebrow eyebrow">Modelo X2-PSJ-9 — Aixa Group</div>
 
     <h1 class="hero-headline">
@@ -1950,12 +2081,11 @@ footer {
 <section id="problema" class="section-cream">
   <div class="wrap">
 
-    <div class="problema-intro reveal">
-      <div class="eyebrow">Lo que ofrecemos</div>
+    <div class="problema-intro reveal" style="text-align:center;max-width:600px;margin-left:auto;margin-right:auto;">
+      <div class="eyebrow" style="justify-content:center;">Lo que ofrecemos</div>
       <h2 class="section-title">
-        Elevamos el nivel<br>
-        de tu espacio con<br>
-        <em>gastronomía real.</em>
+        Elevamos tu espacio<br>
+        con <em>gastronomía real.</em>
       </h2>
     </div>
 
@@ -1964,17 +2094,17 @@ footer {
       <div class="prob-card reveal d1">
         <div class="prob-num">01</div>
         <div class="prob-title">Una pizzería completa, sin la infraestructura</div>
-        <p class="prob-body">Nosotros tenemos la fábrica, el producto, la logística y el equipo. Vos ponés el espacio. Sin obra, sin personal, sin habilitaciones de cocina. La pizzería llega lista.</p>
+        <p class="prob-body">Vos ponés el espacio. Nosotros la fábrica, el producto, la logística y el equipo. Sin obra, sin personal, sin habilitaciones.</p>
       </div>
       <div class="prob-card reveal d2">
         <div class="prob-num">02</div>
         <div class="prob-title">Servicio 24/7 que trabaja mientras vos descansás</div>
-        <p class="prob-body">La máquina no cierra. Sirve pizza a las 3 AM en un hospital, a las 6 AM en un aeropuerto, entre clases en una universidad. Demanda cubierta en todo momento, sin empleados.</p>
+        <p class="prob-body">La máquina no cierra. A las 3 AM en un hospital, a las 6 AM en un aeropuerto, entre clases en una universidad. Sin empleados.</p>
       </div>
       <div class="prob-card reveal d3">
         <div class="prob-num">03</div>
         <div class="prob-title">Más valor para tu comunidad, más ingresos para vos</div>
-        <p class="prob-body">Tu espacio le ofrece a su gente una opción gastronómica de calidad. Vos generás ingresos adicionales sin gestión diaria. Nosotros nos encargamos de todo lo demás.</p>
+        <p class="prob-body">Tu espacio ofrece gastronomía de calidad. Vos generás ingresos sin gestión diaria. Nosotros nos encargamos de todo.</p>
       </div>
     </div>
 
@@ -1982,17 +2112,17 @@ footer {
     <div class="prob-card-mobile">
       <div class="prob-num">01</div>
       <div class="prob-title">Una pizzería completa, sin la infraestructura</div>
-      <p class="prob-body">Nosotros tenemos la fábrica, el producto, la logística y el equipo. Vos ponés el espacio. Sin obra, sin personal, sin habilitaciones de cocina.</p>
+      <p class="prob-body">Vos ponés el espacio. Nosotros la fábrica, el producto, la logística y el equipo. Sin obra, sin personal, sin habilitaciones.</p>
     </div>
     <div class="prob-card-mobile">
       <div class="prob-num">02</div>
       <div class="prob-title">Servicio 24/7 que trabaja mientras vos descansás</div>
-      <p class="prob-body">La máquina no cierra. Sirve pizza a las 3 AM en un hospital, a las 6 AM en un aeropuerto, entre clases en una universidad. Sin empleados.</p>
+      <p class="prob-body">La máquina no cierra. A las 3 AM en un hospital, a las 6 AM en un aeropuerto, entre clases en una universidad. Sin empleados.</p>
     </div>
     <div class="prob-card-mobile">
       <div class="prob-num">03</div>
       <div class="prob-title">Más valor para tu comunidad, más ingresos para vos</div>
-      <p class="prob-body">Tu espacio le ofrece a su gente una opción gastronómica de calidad. Vos generás ingresos adicionales sin gestión diaria. Todo a cargo nuestro.</p>
+      <p class="prob-body">Tu espacio ofrece gastronomía de calidad. Vos generás ingresos sin gestión diaria. Nosotros nos encargamos de todo.</p>
     </div>
 
   </div>
@@ -2023,7 +2153,7 @@ footer {
             <span class="spec-n">01</span>
             <div class="spec-content">
               <div class="spec-title">90 canales · 90 pizzas de 22,86 cm</div>
-              <p class="spec-desc">Capacidad para 90 cajas de pizza de 9 pulgadas (22,86 cm). Almacenamiento a temperatura controlada entre −10°C y 8°C con compresor Embraco frost-free.</p>
+              <p class="spec-desc">90 cajas de 9" almacenadas entre −10°C y 8°C. Compresor Embraco frost-free.</p>
             </div>
             <span class="spec-arrow">↗</span>
           </li>
@@ -2031,7 +2161,7 @@ footer {
             <span class="spec-n">02</span>
             <div class="spec-content">
               <div class="spec-title">Horno integrado 30–300°C · 4.900 W</div>
-              <p class="spec-desc">El cliente elige su pizza en pantalla. El horno la calienta al instante. Temperatura y tiempo ajustables. Sin operario, sin demoras, sin cocina.</p>
+              <p class="spec-desc">El cliente elige, paga y recibe en minutos. Sin operario, sin cocina.</p>
             </div>
             <span class="spec-arrow">↗</span>
           </li>
@@ -2039,7 +2169,7 @@ footer {
             <span class="spec-n">03</span>
             <div class="spec-content">
               <div class="spec-title">Pantalla táctil 32" Ultra HD + múltiples medios de pago</div>
-              <p class="spec-desc">Touchscreen capacitivo resistente de 32" (55" opcional). Acepta Visa, efectivo, monedas y cambio automático. Experiencia de compra intuitiva y moderna.</p>
+              <p class="spec-desc">32" capacitivo (55" opcional). Visa, efectivo, monedas y cambio automático.</p>
             </div>
             <span class="spec-arrow">↗</span>
           </li>
@@ -2047,7 +2177,7 @@ footer {
             <span class="spec-n">04</span>
             <div class="spec-content">
               <div class="spec-title">4G · Wi-Fi · GPS · Backend inteligente</div>
-              <p class="spec-desc">Monitoreo en tiempo real desde cualquier lugar. Stock, temperatura, ventas y alertas en un solo dashboard. Conectividad 4G compatible con todas las redes.</p>
+              <p class="spec-desc">Stock, temperatura y ventas en tiempo real desde tu móvil. 4G compatible con todas las redes.</p>
             </div>
             <span class="spec-arrow">↗</span>
           </li>
@@ -2055,7 +2185,7 @@ footer {
             <span class="spec-n">05</span>
             <div class="spec-content">
               <div class="spec-title">Acero inoxidable 304 · Esterilización por ozono</div>
-              <p class="spec-desc">Construcción en acero grado alimentario 304 con aislamiento de 55 mm. Opción de esterilización por ozono. Brazo XYZ con pinza telescópica y sensor antipellizcamiento infrarrojo.</p>
+              <p class="spec-desc">Acero grado alimentario 304, aislamiento 55 mm. Esterilización por ozono opcional.</p>
             </div>
             <span class="spec-arrow">↗</span>
           </li>
@@ -2179,21 +2309,21 @@ footer {
           <span class="stat-counter" data-target="90">0</span><span class="stat-suffix">pzs</span>
         </div>
         <div class="stat-label-main">Por carga</div>
-        <p class="stat-sub">Capacidad máxima de 90 pizzas de 22,86 cm por reposición</p>
+        <p class="stat-sub">90 pizzas por reposición</p>
       </div>
       <div class="stat-block reveal d1">
         <div class="stat-num-wrap">
           <span class="stat-counter" data-target="24">0</span><span class="stat-suffix">h</span>
         </div>
         <div class="stat-label-main">Sin pausas</div>
-        <p class="stat-sub">Operativa las 24 horas, los 7 días, sin personal ni cocina</p>
+        <p class="stat-sub">Sin personal ni cocina</p>
       </div>
       <div class="stat-block reveal d2">
         <div class="stat-num-wrap">
           <span class="stat-counter" data-target="300">0</span><span class="stat-suffix">°C</span>
         </div>
         <div class="stat-label-main">Horno integrado</div>
-        <p class="stat-sub">Pizza caliente al momento. Temperatura ajustable 30–300°C</p>
+        <p class="stat-sub">Temperatura ajustable 30–300°C</p>
       </div>
     </div>
   </div>
@@ -2206,19 +2336,12 @@ footer {
 <section id="como-funciona" class="section-dark grain" style="padding:140px 0;">
   <div class="wrap">
 
-    <div class="menu-header">
-      <div class="menu-header-left">
-        <div class="eyebrow reveal">Nuestro Servicio</div>
-        <h2 class="section-title reveal d1">
-          Vos ponés<br>
-          el espacio.<br>
-          <em>Nosotros, todo</em><br>
-          <em>lo demás.</em>
-        </h2>
-      </div>
-      <p class="menu-header-right reveal d2">
-        Aixa Group gestiona el 100% de la operación. Instalación, abastecimiento con Tomasso, mantenimiento y monitoreo en tiempo real — sin que muevas un dedo.
-      </p>
+    <div style="text-align:center;max-width:600px;margin:0 auto 72px;" class="reveal">
+      <div class="eyebrow" style="justify-content:center;">Nuestro Servicio</div>
+      <h2 class="section-title reveal d1" style="margin-top:20px;">
+        Vos ponés el espacio.<br>
+        <em>Nosotros, todo lo demás.</em>
+      </h2>
     </div>
 
     <!-- Desktop 3×2 grid — service pillars -->
@@ -2228,7 +2351,7 @@ footer {
         <div class="menu-plate" style="border-radius:0; aspect-ratio: unset; padding: 44px 32px 44px; display:flex; flex-direction:column; justify-content:flex-start; gap: 16px; min-height: 300px; background: rgba(242,237,224,0.03); border: 1px solid var(--border-dark);">
           <div style="font-family:var(--font-display);font-size:52px;font-weight:400;color:rgba(201,169,110,0.12);line-height:1;">01</div>
           <div style="font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--text-on-dark);line-height:1.2;">Instalamos la máquina</div>
-          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Nos encargamos de la instalación completa en tu espacio. Sin obras, sin reformas. La máquina llega lista para operar.</div>
+          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Sin obras, sin reformas. La máquina llega lista para operar.</div>
         </div>
         <div class="menu-name" style="margin-top:16px;">Instalación</div>
         <div class="menu-desc">Sin obras · Sin reformas · Sin gestiones</div>
@@ -2238,7 +2361,7 @@ footer {
         <div class="menu-plate" style="border-radius:0; aspect-ratio: unset; padding: 44px 32px 44px; display:flex; flex-direction:column; justify-content:flex-start; gap: 16px; min-height: 300px; background: rgba(242,237,224,0.03); border: 1px solid var(--border-dark);">
           <div style="font-family:var(--font-display);font-size:52px;font-weight:400;color:rgba(201,169,110,0.12);line-height:1;">02</div>
           <div style="font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--text-on-dark);line-height:1.2;">Abastecemos con Tomasso</div>
-          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Trabajamos con Tomasso Pizzas, marca reconocida en Argentina. Reposición constante para que la máquina nunca se quede vacía.</div>
+          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Tomasso Pizzas, marca reconocida en Argentina. Reposición constante garantizada.</div>
         </div>
         <div class="menu-name" style="margin-top:16px;">Abastecimiento</div>
         <div class="menu-desc">Tomasso Pizzas · Reposición constante</div>
@@ -2248,7 +2371,7 @@ footer {
         <div class="menu-plate" style="border-radius:0; aspect-ratio: unset; padding: 44px 32px 44px; display:flex; flex-direction:column; justify-content:flex-start; gap: 16px; min-height: 300px; background: rgba(242,237,224,0.03); border: 1px solid var(--border-dark);">
           <div style="font-family:var(--font-display);font-size:52px;font-weight:400;color:rgba(201,169,110,0.12);line-height:1;">03</div>
           <div style="font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--text-on-dark);line-height:1.2;">Mantenimiento incluido</div>
-          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Mantenimiento regular preventivo y correctivo. La máquina siempre en condiciones óptimas. Vos no intervenis en nada.</div>
+          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Preventivo y correctivo incluido. Vos no intervenis en nada.</div>
         </div>
         <div class="menu-name" style="margin-top:16px;">Mantenimiento</div>
         <div class="menu-desc">Preventivo · Correctivo · Sin costo extra</div>
@@ -2258,7 +2381,7 @@ footer {
         <div class="menu-plate" style="border-radius:0; aspect-ratio: unset; padding: 44px 32px 44px; display:flex; flex-direction:column; justify-content:flex-start; gap: 16px; min-height: 300px; background: rgba(242,237,224,0.03); border: 1px solid var(--border-dark);">
           <div style="font-family:var(--font-display);font-size:52px;font-weight:400;color:rgba(201,169,110,0.12);line-height:1;">04</div>
           <div style="font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--text-on-dark);line-height:1.2;">Monitoreo en tiempo real</div>
-          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Software propio con GPS y conectividad 4G. Ves ventas, stock y estado de la máquina desde tu móvil. En vivo, 24 horas.</div>
+          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Ves ventas, stock y alertas desde tu móvil. En vivo, 24 horas.</div>
         </div>
         <div class="menu-name" style="margin-top:16px;">Software</div>
         <div class="menu-desc">4G · GPS · Tiempo real · App móvil</div>
@@ -2268,7 +2391,7 @@ footer {
         <div class="menu-plate" style="border-radius:0; aspect-ratio: unset; padding: 44px 32px 44px; display:flex; flex-direction:column; justify-content:flex-start; gap: 16px; min-height: 300px; background: rgba(242,237,224,0.03); border: 1px solid var(--border-dark);">
           <div style="font-family:var(--font-display);font-size:52px;font-weight:400;color:rgba(201,169,110,0.12);line-height:1;">05</div>
           <div style="font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--text-on-dark);line-height:1.2;">Servicio 24/7 sin personal</div>
-          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">La máquina opera sola. No necesita empleados, no cierra, no falla. A las 3 AM en un hospital o a las 6 AM en un aeropuerto.</div>
+          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">No necesita empleados, no cierra, no falla. Opera sola las 24 horas.</div>
         </div>
         <div class="menu-name" style="margin-top:16px;">Disponibilidad</div>
         <div class="menu-desc">24 horas · 7 días · Sin personal</div>
@@ -2278,7 +2401,7 @@ footer {
         <div class="menu-plate" style="border-radius:0; aspect-ratio: unset; padding: 44px 32px 44px; display:flex; flex-direction:column; justify-content:flex-start; gap: 16px; min-height: 300px; background: var(--fire-dim); border: 1px solid rgba(196,67,26,0.2);">
           <div style="font-family:var(--font-display);font-size:52px;font-weight:400;color:rgba(196,67,26,0.2);line-height:1;">→</div>
           <div style="font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--text-on-dark);line-height:1.2;">Tu espacio genera ingresos</div>
-          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Hospitales, aeropuertos, universidades, centros comerciales y clubes. Tu espacio vacío se convierte en gastronomía activa.</div>
+          <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Tu espacio vacío se convierte en gastronomía activa.</div>
         </div>
         <div class="menu-name" style="margin-top:16px;">El Resultado</div>
         <div class="menu-desc">Ingresos pasivos · Sin gestión diaria</div>
@@ -2339,39 +2462,32 @@ footer {
         <div class="eyebrow">Nuestro Proveedor</div>
         <h2 class="section-title" style="font-size:clamp(36px,3.5vw,54px);margin-top:20px;color:var(--text-on-cream);">
           Pizzas<br>
-          <em>Tomasso.</em><br>
-          De confianza.
+          <em>Tomasso.</em>
         </h2>
         <p class="contacto-desc">
-          Marca reconocida en Argentina. Pizzas de 9" con ingredientes de primera calidad, listas para calentar al momento.
+          Marca reconocida en Argentina. Pizzas de 9" con ingredientes de primera calidad, listas para calentar al instante.
         </p>
-        <a href="https://tomassopizzas.com.ar" target="_blank" rel="noopener" class="btn-outline" style="border-color:var(--border-cream);color:var(--text-muted-on-cream);margin-bottom:28px;display:inline-block;">
+        <a href="https://tomassopizzas.com.ar" target="_blank" rel="noopener" class="btn-outline" style="border-color:var(--border-cream);color:var(--text-muted-on-cream);display:inline-block;">
           Ver Tomasso Pizzas ↗
         </a>
-        <p style="font-size:14px;font-weight:300;color:var(--text-muted-on-cream);line-height:1.75;">
-          Suministro constante y calidad garantizada. Vos no buscás proveedores — nosotros ya lo hicimos.
-        </p>
       </div>
       <div class="reveal d2">
-        <div style="border:1px solid var(--border-cream);padding:36px;display:flex;flex-direction:column;gap:20px;">
-          <div style="border-bottom:1px solid var(--border-cream);padding-bottom:20px;">
-            <div style="font-family:var(--font-body);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted-on-cream);margin-bottom:8px;">Proveedor oficial</div>
-            <div style="font-family:var(--font-display);font-size:36px;font-weight:500;color:var(--text-on-cream);letter-spacing:0.04em;">Tomasso</div>
-            <div style="font-size:12px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted-on-cream);margin-top:4px;">Pizzas · Argentina</div>
+        <div style="border:1px solid var(--border-cream);padding:36px;display:flex;flex-direction:column;gap:0;">
+          <div style="padding-bottom:20px;border-bottom:1px solid var(--border-cream);margin-bottom:20px;">
+            <div style="font-family:var(--font-body);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted-on-cream);margin-bottom:8px;">Proveedor exclusivo</div>
+            <div style="font-family:var(--font-display);font-size:36px;font-weight:500;color:var(--text-on-cream);">Tomasso Pizzas</div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-            <div style="padding:16px;border:1px solid var(--border-cream);">
-              <div style="font-family:var(--font-display);font-size:28px;color:var(--umber);">9"</div>
-              <div style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted-on-cream);margin-top:4px;">Tamaño estándar</div>
+          <div style="margin-bottom:20px;">
+            <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted-on-cream);margin-bottom:14px;">Variedades disponibles</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="font-size:15px;font-weight:400;color:var(--text-on-cream);">Muzzarela</div>
+              <div style="font-size:15px;font-weight:400;color:var(--text-on-cream);">Jamón y Morrón</div>
+              <div style="font-size:15px;font-weight:400;color:var(--text-on-cream);">4 Quesos</div>
+              <div style="font-size:15px;font-weight:400;color:var(--text-on-cream);">Provoleta y Jamón</div>
             </div>
-            <div style="padding:16px;border:1px solid var(--border-cream);">
-              <div style="font-family:var(--font-display);font-size:28px;color:var(--umber);">90</div>
-              <div style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted-on-cream);margin-top:4px;">Por carga</div>
-            </div>
-            <div style="padding:16px;border:1px solid var(--border-cream);grid-column:1/-1;">
-              <div style="font-size:12px;font-weight:400;color:var(--text-on-cream);margin-bottom:4px;">Cadena de frío garantizada</div>
-              <div style="font-size:12px;font-weight:300;color:var(--text-muted-on-cream);line-height:1.6;">Almacenamiento entre −10°C y 8°C. Horno a 300°C al instante.</div>
-            </div>
+          </div>
+          <div style="border-top:1px solid var(--border-cream);padding-top:20px;">
+            <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-cream);line-height:1.7;">Producidas en Argentina. Almacenadas en frío. Calentadas al instante por el horno integrado de la máquina.</div>
           </div>
         </div>
       </div>
@@ -2388,41 +2504,40 @@ footer {
     <div style="text-align:center;max-width:680px;margin:0 auto 72px;" class="reveal">
       <div class="eyebrow" style="justify-content:center;">Ubicaciones Ideales</div>
       <h2 class="section-title" style="font-size:clamp(36px,4vw,58px);margin-top:20px;">
-        Espacios donde<br>
-        la gente merece<br>
-        <em>comer bien.</em>
+        Donde la gente<br>
+        merece <em>comer bien.</em>
       </h2>
     </div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border-dark);border:1px solid var(--border-dark);" class="reveal d1">
       <div style="background:var(--espresso);padding:40px 32px;transition:background 0.3s;" onmouseenter="this.style.background='#1e1306'" onmouseleave="this.style.background='var(--espresso)'">
         <div style="font-size:28px;margin-bottom:20px;">🏥</div>
         <div style="font-family:var(--font-display);font-size:20px;font-weight:400;color:var(--text-on-dark);margin-bottom:10px;">Hospitales</div>
-        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Personal de guardia, familiares y pacientes. Demanda las 24h donde los comedores cierran a las 21h.</div>
+        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Demanda las 24h donde los comedores cierran a las 21h.</div>
       </div>
       <div style="background:var(--espresso);padding:40px 32px;transition:background 0.3s;" onmouseenter="this.style.background='#1e1306'" onmouseleave="this.style.background='var(--espresso)'">
         <div style="font-size:28px;margin-bottom:20px;">✈️</div>
         <div style="font-family:var(--font-display);font-size:20px;font-weight:400;color:var(--text-on-dark);margin-bottom:10px;">Aeropuertos</div>
-        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Pasajeros en tránsito, vuelos nocturnos, personal de tierra. Alto tráfico permanente sin pausas.</div>
+        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Alto tráfico permanente sin pausas.</div>
       </div>
       <div style="background:var(--espresso);padding:40px 32px;transition:background 0.3s;" onmouseenter="this.style.background='#1e1306'" onmouseleave="this.style.background='var(--espresso)'">
         <div style="font-size:28px;margin-bottom:20px;">🎓</div>
         <div style="font-family:var(--font-display);font-size:20px;font-weight:400;color:var(--text-on-dark);margin-bottom:10px;">Universidades</div>
-        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Estudiantes y docentes en horarios extendidos. Clases nocturnas, finales, turnos maratónicos de estudio.</div>
+        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Clases nocturnas, finales, maratones de estudio. Siempre hay hambre.</div>
       </div>
       <div style="background:var(--espresso);padding:40px 32px;transition:background 0.3s;" onmouseenter="this.style.background='#1e1306'" onmouseleave="this.style.background='var(--espresso)'">
         <div style="font-size:28px;margin-bottom:20px;">🛍️</div>
         <div style="font-family:var(--font-display);font-size:20px;font-weight:400;color:var(--text-on-dark);margin-bottom:10px;">Centros Comerciales</div>
-        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Una opción gastronómica más en el patio de comidas. Sin alquiler de local completo, sin personal propio.</div>
+        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Gastronomía en el patio de comidas. Sin local, sin personal.</div>
       </div>
       <div style="background:var(--espresso);padding:40px 32px;transition:background 0.3s;" onmouseenter="this.style.background='#1e1306'" onmouseleave="this.style.background='var(--espresso)'">
         <div style="font-size:28px;margin-bottom:20px;">⚽</div>
         <div style="font-family:var(--font-display);font-size:20px;font-weight:400;color:var(--text-on-dark);margin-bottom:10px;">Clubes y Estadios</div>
-        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Socios, familias y público en eventos. Demanda pico en horarios específicos, sin necesidad de cocina permanente.</div>
+        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Demanda pico en eventos. Sin cocina permanente.</div>
       </div>
       <div style="background:var(--fire-dim);border:1px solid rgba(196,67,26,0.15);padding:40px 32px;">
         <div style="font-size:28px;margin-bottom:20px;">📍</div>
         <div style="font-family:var(--font-display);font-size:20px;font-weight:400;color:var(--text-on-dark);margin-bottom:10px;">Tu espacio</div>
-        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Si tenés un espacio con tráfico de personas, hay una oportunidad. Hablemos y lo evaluamos juntos.</div>
+        <div style="font-size:13px;font-weight:300;color:var(--text-muted-on-dark);line-height:1.75;">Si hay tráfico de personas, hay una oportunidad. Hablemos.</div>
       </div>
     </div>
   </div>
@@ -2443,7 +2558,7 @@ footer {
         </h2>
       </div>
       <p class="menu-header-right reveal d2">
-        Producidas en nuestra fábrica, con ingredientes seleccionados. Almacenadas en frío y calentadas al instante por el horno integrado de la máquina.
+        Producidas con ingredientes seleccionados. Almacenadas en frío y calentadas al instante.
       </p>
     </div>
 
@@ -2457,7 +2572,6 @@ footer {
                style="width:100%;height:100%;object-fit:contain;"
                loading="lazy" />
           <div class="menu-plate-overlay"></div>
-          <div class="menu-plate-badge"><span>Ver ingredientes ↗</span></div>
         </div>
         <div class="menu-name">Muzzarela</div>
         <div class="menu-desc">Masa · Salsa de tomate · Muzzarella · Orégano</div>
@@ -2470,7 +2584,6 @@ footer {
                style="width:100%;height:100%;object-fit:contain;"
                loading="lazy" />
           <div class="menu-plate-overlay"></div>
-          <div class="menu-plate-badge"><span>Ver ingredientes ↗</span></div>
         </div>
         <div class="menu-name">Jamón y Morrón</div>
         <div class="menu-desc">Masa · Tomate · Muzzarella · Jamón · Morrón rojo · Orégano</div>
@@ -2483,7 +2596,6 @@ footer {
                style="width:100%;height:100%;object-fit:contain;"
                loading="lazy" />
           <div class="menu-plate-overlay"></div>
-          <div class="menu-plate-badge"><span>Ver ingredientes ↗</span></div>
         </div>
         <div class="menu-name">4 Quesos</div>
         <div class="menu-desc">Masa · Tomate · Muzzarella · Cheddar · Roquefort · Parmesano · Orégano</div>
@@ -2496,7 +2608,6 @@ footer {
                style="width:100%;height:100%;object-fit:contain;"
                loading="lazy" />
           <div class="menu-plate-overlay"></div>
-          <div class="menu-plate-badge"><span>Ver ingredientes ↗</span></div>
         </div>
         <div class="menu-name">Provoleta y Jamón</div>
         <div class="menu-desc">Masa · Tomate · Jamón · Muzzarella · Provoleta</div>
@@ -2574,17 +2685,69 @@ footer {
         <em>sin el restaurante.</em>
       </h2>
       <p class="cta-sub">
-        Contanos dónde está tu espacio. Evaluamos la ubicación, te presentamos la propuesta y te decimos si es viable — sin costo ni compromiso.
+        Contanos dónde está tu espacio. Lo evaluamos sin costo ni compromiso.
       </p>
-      <div class="cta-buttons">
-        <a href="https://wa.me/5491123462744?text=Hola%2C%20quiero%20información%20sobre%20Aixa%20Group" class="btn-wa" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-          </svg>
-          WhatsApp
-        </a>
-        <a href="#contacto" class="btn-fire magnetic">Solicitar Demo</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════
+     PROCESO — dark
+══════════════════════════════════════════════════════ -->
+<section id="proceso" class="section-dark grain">
+  <div class="wrap">
+    <div class="proceso-header reveal">
+      <p class="proceso-label">Cómo trabajamos</p>
+      <h2 class="proceso-title">Del acuerdo a la máquina<br><em>funcionando en tu espacio.</em></h2>
+      <p class="proceso-intro">Nos encargamos de todo el proceso, desde la fabricación hasta la puesta en marcha y el soporte continuo.</p>
+    </div>
+
+    <div class="proceso-steps reveal">
+
+      <div class="proceso-step">
+        <div class="step-num">01</div>
+        <div class="step-title">Diseño y fabricación</div>
+        <p class="step-desc">Producimos la máquina en nuestra fábrica en China con especificaciones ajustadas al espacio y al negocio del cliente: capacidad, temperatura, tipos de producto y estética.</p>
+        <ul class="step-details">
+          <li>Diseño gráfico con colores, logo e identidad del cliente</li>
+          <li>Configuración de medios de pago: efectivo, tarjeta, QR y billeteras digitales</li>
+          <li>Programación de precios, menú y horarios de operación</li>
+          <li>Control de calidad en fábrica antes del despacho</li>
+        </ul>
       </div>
+
+      <div class="proceso-step">
+        <div class="step-num">02</div>
+        <div class="step-title">Importación y entrega</div>
+        <p class="step-desc">Gestionamos el 100% del proceso logístico y aduanero. El cliente no necesita intervenir en ningún trámite ni tener conocimiento de comercio exterior.</p>
+        <ul class="step-details">
+          <li>Coordinación del flete internacional desde China hasta Argentina</li>
+          <li>Gestión de documentación aduanera: DUA, certificados de origen y permisos de importación</li>
+          <li>Despacho ante la Dirección General de Aduanas (DGA)</li>
+          <li>Pago de aranceles e impuestos de importación a nuestro cargo</li>
+          <li>Transporte interno y entrega en el domicilio indicado por el cliente</li>
+          <li>Instalación y puesta en marcha en el lugar</li>
+        </ul>
+      </div>
+
+      <div class="proceso-step">
+        <div class="step-num">03</div>
+        <div class="step-title">Operación continua</div>
+        <p class="step-desc">Una vez instalada, nos encargamos de que la máquina funcione siempre. El cliente no tiene que preocuparse por nada operativo.</p>
+        <ul class="step-details">
+          <li>Reposición periódica de producto según rotación y demanda</li>
+          <li>Monitoreo remoto del stock y estado de la máquina</li>
+          <li>Mantenimiento preventivo programado</li>
+          <li>Ante cualquier falla, nuestro equipo técnico la repara sin costo adicional</li>
+          <li>Actualización de menú y precios en cualquier momento</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="proceso-nota reveal">
+      <p><strong>Sin fricciones para el cliente.</strong> Todo el proceso — fabricación, importación, instalación, reposición y mantenimiento — corre por nuestra cuenta. Vos solo ponés el espacio.</p>
     </div>
   </div>
 </section>
@@ -2667,6 +2830,7 @@ footer {
         <li><a href="#maquina">La Máquina</a></li>
         <li><a href="#como-funciona">Cómo Funciona</a></li>
         <li><a href="#ubicaciones">Ubicaciones</a></li>
+        <li><a href="#proceso">Nuestro Proceso</a></li>
         <li><a href="#contacto">Contacto</a></li>
       </ul>
       <p class="footer-copy">© 2026 Aixa Group. Todos los derechos reservados.</p>
@@ -2687,6 +2851,18 @@ footer {
     WhatsApp
   </a>
 </div>
+
+
+<!-- WhatsApp floating button -->
+<a href="https://wa.me/5491123462744?text=Hola%2C%20quiero%20info%20sobre%20Aixa%20Group"
+   class="wa-float"
+   target="_blank"
+   rel="noopener"
+   aria-label="Contactar por WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
 
 
 <!-- ══════════════════════════════════════════════════════
